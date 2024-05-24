@@ -29,13 +29,16 @@ public class Herramienta {
     private int cantidad;
 
     @Column
+    private String proveedor;
+
+    @Column
     private byte[] image;
 
 
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, String proveedor, byte[] image) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -43,6 +46,8 @@ public class Herramienta {
         this.marca = marca;
         this.fecha_in = fecha_in;
         this.cantidad = cantidad;
+        this.proveedor = proveedor;
+        this.image = image;
     }
 
     public String getId() {
@@ -109,6 +114,14 @@ public class Herramienta {
         this.image = image;
     }
 
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
+    }
+
     @Override
     public String toString() {
         return "Herramienta{" +
@@ -119,8 +132,8 @@ public class Herramienta {
                 ", marca='" + marca + '\'' +
                 ", fecha_in=" + fecha_in +
                 ", cantidad=" + cantidad +
+                ", proveedor='" + proveedor + '\'' +
                 ", image=" + Arrays.toString(image) +
                 '}';
     }
-
 }
