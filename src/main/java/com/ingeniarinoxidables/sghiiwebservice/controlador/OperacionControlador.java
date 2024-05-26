@@ -27,6 +27,6 @@ public class OperacionControlador {
     }
 
     @PostMapping
-    public Operacion agregar(@RequestBody Operacion operacion) { return service.guardarOperacion(operacion); }
+    public Operacion agregar(@RequestBody Operacion operacion) { return service.guardarOperacion(operacion.getOperario().getId(),operacion.getId(),operacion.getTipo(),operacion.getFecha_operacion()); }
 
 }

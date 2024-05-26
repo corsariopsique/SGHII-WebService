@@ -1,13 +1,19 @@
 package com.ingeniarinoxidables.sghiiwebservice.modelo;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Operario {
     @Id
     @Column(name="id_worker")
     private String id;
+
+    @OneToMany(mappedBy = "operario", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Operacion> operaciones;
 
     @Column
     private String nombre;
@@ -19,6 +25,10 @@ public class Operario {
     private LocalDate fecha_in;
 
     public Operario() {
+    }
+
+    public Operario(String id) {
+        this.id = id;
     }
 
     public Operario(String id, String nombre, String rol, LocalDate fecha_in) {
@@ -34,6 +44,14 @@ public class Operario {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public List<Operacion> getOperaciones() {
+        return operaciones;
+    }
+
+    public void setOperaciones(List<Operacion> operaciones) {
+        this.operaciones = operaciones;
     }
 
     public String getNombre() {

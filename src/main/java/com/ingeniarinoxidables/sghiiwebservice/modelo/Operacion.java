@@ -1,5 +1,6 @@
 package com.ingeniarinoxidables.sghiiwebservice.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -10,8 +11,10 @@ public class Operacion {
     @Column(name="id_operaciones")
     private String id;
 
-    @Column
-    private String id_trabajador;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_trabajador",nullable = false)
+    @JsonBackReference
+    private Operario operario;
 
     @Column
     private int tipo;
@@ -22,9 +25,15 @@ public class Operacion {
     public Operacion() {
     }
 
-    public Operacion(String id, String id_trabajador, int tipo, LocalDate fecha_operacion) {
+    public Operacion(String id, Operario operario, int tipo, LocalDate fecha_operacion) {
         this.id = id;
-        this.id_trabajador = id_trabajador;
+        this.operario = operario;
+        this.tipo = tipo;
+        this.fecha_operacion = fecha_operacion;
+    }
+
+    public Operacion(String id, int tipo, LocalDate fecha_operacion) {
+        this.id = id;
         this.tipo = tipo;
         this.fecha_operacion = fecha_operacion;
     }
@@ -37,12 +46,12 @@ public class Operacion {
         this.id = id;
     }
 
-    public String getId_trabajador() {
-        return id_trabajador;
+    public Operario getOperario() {
+        return operario;
     }
 
-    public void setId_trabajador(String id_trabajador) {
-        this.id_trabajador = id_trabajador;
+    public void setOperario(Operario operario) {
+        this.operario = operario;
     }
 
     public int getTipo() {
@@ -65,7 +74,7 @@ public class Operacion {
     public String toString() {
         return "Operacion{" +
                 "id='" + id + '\'' +
-                ", id_trabajador='" + id_trabajador + '\'' +
+                ", operario=" + operario +
                 ", tipo=" + tipo +
                 ", fecha_operacion=" + fecha_operacion +
                 '}';

@@ -3,6 +3,7 @@ package com.ingeniarinoxidables.sghiiwebservice.modelo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 public class Herramienta {
@@ -28,17 +29,24 @@ public class Herramienta {
     @Column
     private int cantidad;
 
-    @Column
-    private String proveedor;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name ="herramienta_proveedor",
+            joinColumns = @JoinColumn(name="idherramienta"),
+            inverseJoinColumns = @JoinColumn(name="id_prove")
+    )
+    private List<Proveedor> proveedor;
+
+    @ManyToMany(mappedBy = "herramientas",fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Kit> kits;
 
     @Column
     private byte[] image;
 
-
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, String proveedor, byte[] image) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, List<Proveedor> proveedor, List<Kit> kits, byte[] image) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -47,6 +55,7 @@ public class Herramienta {
         this.fecha_in = fecha_in;
         this.cantidad = cantidad;
         this.proveedor = proveedor;
+        this.kits = kits;
         this.image = image;
     }
 
@@ -114,12 +123,19 @@ public class Herramienta {
         this.image = image;
     }
 
-    public String getProveedor() {
+    public List<Proveedor> getProveedor() {
         return proveedor;
     }
 
-    public void setProveedor(String proveedor) {
+    public void setProveedor(List<Proveedor> proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public List<Kit> getKits() {
+        return kits;
+    }
+    public void setKits(List<Kit> kits) {
+        this.kits = kits;
     }
 
     @Override
@@ -132,7 +148,8 @@ public class Herramienta {
                 ", marca='" + marca + '\'' +
                 ", fecha_in=" + fecha_in +
                 ", cantidad=" + cantidad +
-                ", proveedor='" + proveedor + '\'' +
+                ", proveedor=" + proveedor +
+                ", kits=" + kits +
                 ", image=" + Arrays.toString(image) +
                 '}';
     }

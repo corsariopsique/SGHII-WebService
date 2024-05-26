@@ -1,14 +1,25 @@
 package com.ingeniarinoxidables.sghiiwebservice.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"herramientas"})
 public class Kit {
 
     @Id
-    @Column(name="idkit")
+    @Column(name = "idkit")
     private String id;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name ="toolKit",
+            joinColumns = @JoinColumn(name="id_kit"),
+            inverseJoinColumns = @JoinColumn(name="id_tool")
+    )
+    private List<Herramienta> herramientas;
 
     @Column
     private String rol;
@@ -19,8 +30,9 @@ public class Kit {
     @Column
     private LocalDate fecha_in;
 
-    public Kit(String id, String rol, String nombre, LocalDate fecha_in) {
+    public Kit(String id, List<Herramienta> herramientas, String rol, String nombre, LocalDate fecha_in) {
         this.id = id;
+        this.herramientas = herramientas;
         this.rol = rol;
         this.nombre = nombre;
         this.fecha_in = fecha_in;
@@ -61,10 +73,19 @@ public class Kit {
         this.fecha_in = fecha_in;
     }
 
+    public List<Herramienta> getHerramientas() {
+        return herramientas;
+    }
+
+    public void setHerramientas(List<Herramienta> herramientas) {
+        this.herramientas = herramientas;
+    }
+
     @Override
     public String toString() {
         return "Kit{" +
                 "id='" + id + '\'' +
+                ", herramientas=" + herramientas +
                 ", rol='" + rol + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", fecha_in=" + fecha_in +

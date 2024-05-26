@@ -1,5 +1,6 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
+import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.KitServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,15 @@ public class KitControlador {
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable String id) {service.eliminarKit(id);}
+
+    @PostMapping ("/{id}/herramientas")
+    public ResponseEntity<Kit> addHerramienta(@PathVariable String id, @RequestBody Herramienta herramienta){
+        Kit kit = service.addHerramienta(id,herramienta);
+        if(kit != null){
+            return ResponseEntity.ok(kit);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
