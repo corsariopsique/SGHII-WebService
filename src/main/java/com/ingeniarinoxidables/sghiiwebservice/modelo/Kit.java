@@ -15,7 +15,7 @@ public class Kit {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
-            name ="toolKit",
+            name ="tool_Kit",
             joinColumns = @JoinColumn(name="id_kit"),
             inverseJoinColumns = @JoinColumn(name="id_tool")
     )

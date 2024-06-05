@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity(name="asignacion-devolucion")
+@Entity(name="asignacion_devolucion")
 public class Operacion {
 
     @Id
