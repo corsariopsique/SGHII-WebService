@@ -1,6 +1,5 @@
 package com.ingeniarinoxidables.sghiiwebservice.modelo;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +11,6 @@ public class Operario {
     private String id;
 
     @OneToMany(mappedBy = "operario", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Operacion> operaciones;
 
     @Column

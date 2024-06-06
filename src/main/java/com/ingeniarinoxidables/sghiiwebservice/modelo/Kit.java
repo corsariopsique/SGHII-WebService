@@ -6,12 +6,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties({"herramientas"})
+@JsonIgnoreProperties({"operaciones","operario","proveedor"})
 public class Kit {
 
     @Id
     @Column(name = "idkit")
     private String id;
+
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
@@ -20,6 +21,9 @@ public class Kit {
             inverseJoinColumns = @JoinColumn(name="id_tool")
     )
     private List<Herramienta> herramientas;
+
+    @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
+    private List<Operacion> operaciones;
 
     @Column
     private String rol;
@@ -30,9 +34,10 @@ public class Kit {
     @Column
     private LocalDate fecha_in;
 
-    public Kit(String id, List<Herramienta> herramientas, String rol, String nombre, LocalDate fecha_in) {
+    public Kit(String id, List<Herramienta> herramientas, List<Operacion> operaciones, String rol, String nombre, LocalDate fecha_in) {
         this.id = id;
         this.herramientas = herramientas;
+        this.operaciones = operaciones;
         this.rol = rol;
         this.nombre = nombre;
         this.fecha_in = fecha_in;
@@ -81,11 +86,20 @@ public class Kit {
         this.herramientas = herramientas;
     }
 
+    public List<Operacion> getOperaciones() {
+        return operaciones;
+    }
+
+    public void setOperaciones(List<Operacion> operaciones) {
+        this.operaciones = operaciones;
+    }
+
     @Override
     public String toString() {
         return "Kit{" +
                 "id='" + id + '\'' +
                 ", herramientas=" + herramientas +
+                ", operaciones=" + operaciones +
                 ", rol='" + rol + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", fecha_in=" + fecha_in +

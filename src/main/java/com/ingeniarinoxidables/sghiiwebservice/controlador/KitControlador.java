@@ -29,16 +29,21 @@ public class KitControlador {
     }
 
     @PostMapping
-    public Kit agregar(@RequestBody Kit kit) { return service.guardarKit(kit);}
+    public ResponseEntity<Kit> agregar(@RequestBody Kit kit) {
+        Kit nuevoKit = service.guardarKit(kit);
+        return ResponseEntity.ok(nuevoKit);
+        }
 
     @PutMapping("/{id}")
-    public Kit actualizar(@PathVariable String id, @RequestBody Kit kit) {
+    public ResponseEntity<Kit> actualizar(@PathVariable String id, @RequestBody Kit kit) {
         Kit kitExistente = service.obtenerKitPorId(id);
         if (kitExistente != null){
             kit.setId(id);
-            return service.guardarKit(kit);
+            kit.setHerramientas(kitExistente.getHerramientas());
+            Kit kitModificado = service.guardarKit(kit);
+            return ResponseEntity.ok(kitModificado);
         } else {
-            return null;
+            return ResponseEntity.notFound().build();
         }
     }
 

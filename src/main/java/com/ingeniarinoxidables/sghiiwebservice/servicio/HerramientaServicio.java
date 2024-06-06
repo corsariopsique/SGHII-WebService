@@ -3,6 +3,7 @@ package com.ingeniarinoxidables.sghiiwebservice.servicio;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Proveedor;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
+import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.ProveedorRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class HerramientaServicio {
 
     @Autowired
     private ProveedorRepositorio proveedorRepositorio;
+
+    @Autowired
+    private OperarioRepositorio operarioRepositorio;
 
     public List<Herramienta> listarHerramientas() {
         return repositorio.findAll();

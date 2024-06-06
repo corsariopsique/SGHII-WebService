@@ -1,5 +1,7 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
+import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.OperacionServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,22 @@ public class OperacionControlador {
         return ResponseEntity.ok(operacion);
     }
 
-    @PostMapping
-    public Operacion agregar(@RequestBody Operacion operacion) { return service.guardarOperacion(operacion.getOperario().getId(),operacion.getId(),operacion.getTipo(),operacion.getFecha_operacion()); }
+    @PostMapping("/{idOperador}")
+    public ResponseEntity<Operacion> agregar(@PathVariable String idOperador, @RequestBody Operacion operacion) {
+        Operacion nuevaOperacion = service.guardarOperacion(idOperador,operacion);
+        return ResponseEntity.ok(nuevaOperacion);
+    }
+
+    @PostMapping ("/{idOperacion}/herramientas")
+    public ResponseEntity<Operacion> vincularTool(@PathVariable String idOperacion, @RequestBody Herramienta herramienta){
+        Operacion operTool = service.addTool(idOperacion,herramienta);
+        return ResponseEntity.ok(operTool);
+    }
+
+    @PostMapping("/{idOperacion}/kits")
+    public ResponseEntity<Operacion> vincularKit(@PathVariable String idOperacion, @RequestBody Kit kit){
+        Operacion operKit = service.addKit(idOperacion,kit);
+        return  ResponseEntity.ok(operKit);
+    }
 
 }

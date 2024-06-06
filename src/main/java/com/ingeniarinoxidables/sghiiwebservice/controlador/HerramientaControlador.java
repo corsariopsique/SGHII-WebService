@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -34,19 +35,21 @@ public class HerramientaControlador {
     }
 
     @PostMapping (consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Herramienta agregar(@RequestBody Herramienta herramienta) {
-        return service.guardarHerramienta(herramienta);
+    public ResponseEntity<Herramienta> agregar(@RequestBody Herramienta herramienta) {
+        Herramienta herramientaNueva = service.guardarHerramienta(herramienta);
+        return ResponseEntity.ok(herramientaNueva);
     }
 
     @PutMapping("/{id}")
-    public Herramienta actualizar(@PathVariable String id, @RequestBody Herramienta herramienta) {
+    public ResponseEntity<Herramienta> actualizar(@PathVariable String id, @RequestBody Herramienta herramienta) {
         Optional<Herramienta> herramientaExistente = service.obtenerHerramientaPorId(id);
         if (herramientaExistente.isPresent() ) {
             herramienta.setId(id);
             herramienta.setProveedor(herramientaExistente.get().getProveedor());
-            return service.guardarHerramienta(herramienta);
+            Herramienta herramientaModificada = service.guardarHerramienta(herramienta);
+            return ResponseEntity.ok(herramientaModificada);
         } else {
-            return null;
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -64,5 +67,7 @@ public class HerramientaControlador {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
 }

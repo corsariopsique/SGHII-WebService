@@ -1,6 +1,5 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Proveedor;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.ProveedorServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +32,20 @@ public class ProveedorControlador {
     }
 
     @PostMapping
-    public Proveedor agregar(@RequestBody Proveedor proveedor) { return service.guardarProveedor(proveedor); }
+    public ResponseEntity<Proveedor> agregar(@RequestBody Proveedor proveedor) {
+        Proveedor proveedorNuevo = service.guardarProveedor(proveedor);
+        return ResponseEntity.ok(proveedorNuevo);
+    }
 
     @PutMapping("/{id}")
-    public Proveedor actualizar(@PathVariable String id, @RequestBody Proveedor proveedor) {
+    public ResponseEntity<Proveedor> actualizar(@PathVariable String id, @RequestBody Proveedor proveedor) {
         Optional<Proveedor> proveedorExistente = service.obtenerProveedorPorId(id);
         if(proveedorExistente.isPresent()){
             proveedor.setId(id);
-            return service.guardarProveedor(proveedor);
+            Proveedor proveedorModificado = service.guardarProveedor(proveedor);
+            return ResponseEntity.ok(proveedorModificado);
         }else {
-            return null;
+            return ResponseEntity.notFound().build();
         }
     }
 

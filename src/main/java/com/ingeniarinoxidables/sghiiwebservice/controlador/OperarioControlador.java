@@ -27,16 +27,20 @@ public class OperarioControlador {
     }
 
     @PostMapping
-    public Operario agregar(@RequestBody Operario operario) { return service.guardarOperario(operario); }
+    public ResponseEntity<Operario> agregar(@RequestBody Operario operario) {
+        Operario operarioNuevo = service.guardarOperario(operario);
+        return ResponseEntity.ok(operarioNuevo);
+    }
 
     @PutMapping("/{id}")
-    public Operario actualizar(@PathVariable String id, @RequestBody Operario operario) {
+    public ResponseEntity<Operario> actualizar(@PathVariable String id, @RequestBody Operario operario) {
         Operario operarioExistente = service.obtenerOperarioPorId(id);
         if (operarioExistente!= null){
             operario.setId(id);
-            return service.guardarOperario(operario);
+            Operario operarioModificado = service.guardarOperario(operario);
+            return ResponseEntity.ok(operarioModificado);
         }else {
-            return null;
+            return ResponseEntity.notFound().build();
         }
     }
 

@@ -1,11 +1,13 @@
 package com.ingeniarinoxidables.sghiiwebservice.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"proveedor","kits","operaciones"})
 public class Herramienta {
     @Id
     @Column(name= "idherramienta")
@@ -40,13 +42,16 @@ public class Herramienta {
     @ManyToMany(mappedBy = "herramientas",fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Kit> kits;
 
+    @OneToMany(mappedBy = "herramienta", cascade = CascadeType.ALL)
+    private List<Operacion> operaciones;
+
     @Column
     private byte[] image;
 
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, List<Proveedor> proveedor, List<Kit> kits, byte[] image) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones, byte[] image) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -56,8 +61,11 @@ public class Herramienta {
         this.cantidad = cantidad;
         this.proveedor = proveedor;
         this.kits = kits;
+        this.operaciones = operaciones;
         this.image = image;
     }
+
+
 
     public String getId() {
         return id;
@@ -138,6 +146,14 @@ public class Herramienta {
         this.kits = kits;
     }
 
+    public List<Operacion> getOperaciones() {
+        return operaciones;
+    }
+
+    public void setOperaciones(List<Operacion> operaciones) {
+        this.operaciones = operaciones;
+    }
+
     @Override
     public String toString() {
         return "Herramienta{" +
@@ -150,6 +166,7 @@ public class Herramienta {
                 ", cantidad=" + cantidad +
                 ", proveedor=" + proveedor +
                 ", kits=" + kits +
+                ", operaciones=" + operaciones +
                 ", image=" + Arrays.toString(image) +
                 '}';
     }
