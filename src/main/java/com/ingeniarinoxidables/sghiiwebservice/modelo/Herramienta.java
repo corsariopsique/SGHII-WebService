@@ -3,7 +3,6 @@ package com.ingeniarinoxidables.sghiiwebservice.modelo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -45,13 +44,10 @@ public class Herramienta {
     @OneToMany(mappedBy = "herramienta", cascade = CascadeType.ALL)
     private List<Operacion> operaciones;
 
-    @Column
-    private byte[] image;
-
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones, byte[] image) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -62,10 +58,7 @@ public class Herramienta {
         this.proveedor = proveedor;
         this.kits = kits;
         this.operaciones = operaciones;
-        this.image = image;
     }
-
-
 
     public String getId() {
         return id;
@@ -99,10 +92,6 @@ public class Herramienta {
         return cantidad;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -125,10 +114,6 @@ public class Herramienta {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     public List<Proveedor> getProveedor() {
@@ -167,7 +152,6 @@ public class Herramienta {
                 ", proveedor=" + proveedor +
                 ", kits=" + kits +
                 ", operaciones=" + operaciones +
-                ", image=" + Arrays.toString(image) +
                 '}';
     }
 }

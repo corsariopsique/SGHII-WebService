@@ -32,7 +32,7 @@ public class HerramientaServicio {
         return repositorio.findById(id);
     }
 
-    @Transactional
+
     public Herramienta guardarHerramienta(Herramienta herramienta) {
         return repositorio.save(herramienta);
     }
@@ -53,5 +53,4 @@ public class HerramientaServicio {
         }
         return null;
     }
-
 }
