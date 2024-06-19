@@ -1,7 +1,9 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.PaqueteHerramientasKit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
+import com.ingeniarinoxidables.sghiiwebservice.servicio.HerramientaServicio;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.KitServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,9 @@ public class KitControlador {
 
     @Autowired
     private KitServicio service;
+
+    @Autowired
+    private HerramientaServicio serviceTool;
 
     @GetMapping
     public ResponseEntity<List<Kit>> listar() {
@@ -50,11 +55,19 @@ public class KitControlador {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable String id) {service.eliminarKit(id);}
 
-    @PostMapping ("/{id}/herramientas")
-    public ResponseEntity<Kit> addHerramienta(@PathVariable String id, @RequestBody Herramienta herramienta){
-        Kit kit = service.addHerramienta(id,herramienta);
-        if(kit != null){
-            return ResponseEntity.ok(kit);
+    @PostMapping ("/{idkit}/herramientas")
+    public ResponseEntity<Kit> addHerramienta(@PathVariable String idkit, @RequestBody List<PaqueteHerramientasKit> herramientasKit){
+        for(PaqueteHerramientasKit herramienta : herramientasKit){
+            String id = herramienta.getId();
+            int cantidad = herramienta.getCantidad();
+            for(int i = 0; i<cantidad;i++){
+                Herramienta toolKit = serviceTool.obtenerHerramientaPorId(id).get();
+                Kit kit = service.addHerramienta(idkit,toolKit);
+            }
+        }
+        Kit kitActualizado = service.obtenerKitPorId(idkit);
+        if(kitActualizado != null){
+            return ResponseEntity.ok(kitActualizado);
         }else{
             return ResponseEntity.notFound().build();
         }
