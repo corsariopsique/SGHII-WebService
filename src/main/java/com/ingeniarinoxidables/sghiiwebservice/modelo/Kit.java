@@ -13,7 +13,6 @@ public class Kit {
     @Column(name = "idkit")
     private String id;
 
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name ="tool_Kit",

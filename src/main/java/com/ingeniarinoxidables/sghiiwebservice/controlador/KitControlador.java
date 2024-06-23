@@ -1,5 +1,6 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.KitEditar;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.PaqueteHerramientasKit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -39,24 +41,22 @@ public class KitControlador {
         return ResponseEntity.ok(nuevoKit);
         }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Kit> actualizar(@PathVariable String id, @RequestBody Kit kit) {
-        Kit kitExistente = service.obtenerKitPorId(id);
-        if (kitExistente != null){
-            kit.setId(id);
-            kit.setHerramientas(kitExistente.getHerramientas());
-            Kit kitModificado = service.guardarKit(kit);
-            return ResponseEntity.ok(kitModificado);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable String id) {service.eliminarKit(id);}
 
     @PostMapping ("/{idkit}/herramientas")
     public ResponseEntity<Kit> addHerramienta(@PathVariable String idkit, @RequestBody List<PaqueteHerramientasKit> herramientasKit){
+        Kit kitSinTools = service.obtenerKitPorId(idkit);
+        if(kitSinTools != null){
+            iteradorHerramientas(idkit, herramientasKit);
+            return ResponseEntity.ok(kitSinTools);
+
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    private void iteradorHerramientas(@PathVariable String idkit, @RequestBody List<PaqueteHerramientasKit> herramientasKit) {
         for(PaqueteHerramientasKit herramienta : herramientasKit){
             String id = herramienta.getId();
             int cantidad = herramienta.getCantidad();
@@ -65,12 +65,26 @@ public class KitControlador {
                 Kit kit = service.addHerramienta(idkit,toolKit);
             }
         }
-        Kit kitActualizado = service.obtenerKitPorId(idkit);
-        if(kitActualizado != null){
+    }
+
+    @PutMapping ("/{idkit}")
+    public ResponseEntity<Kit> editarKit(@PathVariable String idkit, @RequestBody KitEditar kitModificado){
+        Kit kitExistente = service.obtenerKitPorId(idkit);
+        if(kitExistente!= null){
+            String nombre = kitModificado.getNombre();
+            String rol = kitModificado.getRol();
+            kitExistente = service.deleteHerramientas(idkit);
+            List<PaqueteHerramientasKit> newTools = kitModificado.getHerramientas();
+            iteradorHerramientas(idkit, newTools);
+            kitExistente = service.obtenerKitPorId(idkit);
+            kitExistente.setNombre(nombre);
+            kitExistente.setRol(rol);
+            Kit kitActualizado = service.guardarKit(kitExistente);
             return ResponseEntity.ok(kitActualizado);
-        }else{
+        }else {
             return ResponseEntity.notFound().build();
         }
+
     }
 
 }
