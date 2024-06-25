@@ -5,8 +5,6 @@ import com.ingeniarinoxidables.sghiiwebservice.modelo.ImagenHerramienta;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.ImagenHerramientaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
