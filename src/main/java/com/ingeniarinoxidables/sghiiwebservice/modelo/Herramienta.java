@@ -30,6 +30,9 @@ public class Herramienta {
     @Column
     private int cantidad;
 
+    @Column
+    private int cantidad_disponible;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name ="herramienta_proveedor",
@@ -47,7 +50,7 @@ public class Herramienta {
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, int cantidad_disponible, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -55,6 +58,7 @@ public class Herramienta {
         this.marca = marca;
         this.fecha_in = fecha_in;
         this.cantidad = cantidad;
+        this.cantidad_disponible = cantidad_disponible;
         this.proveedor = proveedor;
         this.kits = kits;
         this.operaciones = operaciones;
@@ -139,6 +143,14 @@ public class Herramienta {
         this.operaciones = operaciones;
     }
 
+    public int getCantidad_disponible() {
+        return cantidad_disponible;
+    }
+
+    public void setCantidad_disponible(int cantidad_disponible) {
+        this.cantidad_disponible = cantidad_disponible;
+    }
+
     @Override
     public String toString() {
         return "Herramienta{" +
@@ -149,6 +161,7 @@ public class Herramienta {
                 ", marca='" + marca + '\'' +
                 ", fecha_in=" + fecha_in +
                 ", cantidad=" + cantidad +
+                ", cantidad_disponible=" + cantidad_disponible +
                 ", proveedor=" + proveedor +
                 ", kits=" + kits +
                 ", operaciones=" + operaciones +
