@@ -1,12 +1,11 @@
 package com.ingeniarinoxidables.sghiiwebservice.modelo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name="asignacion_devolucion")
-@JsonIgnoreProperties({"operario"})
 public class Operacion {
 
     @Id
@@ -19,13 +18,13 @@ public class Operacion {
     private Operario operario;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name ="asg_dev_tool",
             joinColumns = @JoinColumn(name="id_operacion_tool",nullable = true),
             inverseJoinColumns = @JoinColumn(name="id_tool")
     )
-    private Herramienta herramienta;
+    private List<Herramienta> herramienta;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -46,7 +45,7 @@ public class Operacion {
     public Operacion() {
     }
 
-    public Operacion(String id, Operario operario, Herramienta herramienta, Kit kit, int tipo, LocalDate fecha_operacion) {
+    public Operacion(String id, Operario operario, List<Herramienta> herramienta, Kit kit, int tipo, LocalDate fecha_operacion) {
         this.id = id;
         this.operario = operario;
         this.herramienta = herramienta;
@@ -77,11 +76,11 @@ public class Operacion {
         this.operario = operario;
     }
 
-    public Herramienta getHerramienta() {
+    public List<Herramienta> getHerramienta() {
         return herramienta;
     }
 
-    public void setHerramienta(Herramienta herramienta) {
+    public void setHerramienta(List<Herramienta> herramienta) {
         this.herramienta = herramienta;
     }
 

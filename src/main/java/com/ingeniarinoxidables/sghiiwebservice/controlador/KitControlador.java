@@ -48,7 +48,6 @@ public class KitControlador {
         if(kitSinTools != null){
             iteradorHerramientas(idkit, herramientasKit);
             return ResponseEntity.ok(kitSinTools);
-
         }else{
             return ResponseEntity.notFound().build();
         }

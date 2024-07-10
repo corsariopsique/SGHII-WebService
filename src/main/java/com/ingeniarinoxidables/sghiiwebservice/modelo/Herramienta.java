@@ -33,6 +33,9 @@ public class Herramienta {
     @Column
     private int cantidad_disponible;
 
+    @Column
+    private int cantidad_kits;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name ="herramienta_proveedor",
@@ -44,13 +47,13 @@ public class Herramienta {
     @ManyToMany(mappedBy = "herramientas",fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Kit> kits;
 
-    @OneToMany(mappedBy = "herramienta", cascade = CascadeType.ALL)
+    @ManyToMany (mappedBy = "herramienta", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Operacion> operaciones;
 
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, int cantidad_disponible, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, int cantidad_disponible, int cantidad_kits, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -59,6 +62,7 @@ public class Herramienta {
         this.fecha_in = fecha_in;
         this.cantidad = cantidad;
         this.cantidad_disponible = cantidad_disponible;
+        this.cantidad_kits = cantidad_kits;
         this.proveedor = proveedor;
         this.kits = kits;
         this.operaciones = operaciones;
@@ -151,6 +155,14 @@ public class Herramienta {
         this.cantidad_disponible = cantidad_disponible;
     }
 
+    public int getCantidad_kits() {
+        return cantidad_kits;
+    }
+
+    public void setCantidad_kits(int cantidad_kits) {
+        this.cantidad_kits = cantidad_kits;
+    }
+
     @Override
     public String toString() {
         return "Herramienta{" +
@@ -162,6 +174,7 @@ public class Herramienta {
                 ", fecha_in=" + fecha_in +
                 ", cantidad=" + cantidad +
                 ", cantidad_disponible=" + cantidad_disponible +
+                ", cantidad_kits=" + cantidad_kits +
                 ", proveedor=" + proveedor +
                 ", kits=" + kits +
                 ", operaciones=" + operaciones +

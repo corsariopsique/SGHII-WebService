@@ -31,14 +31,18 @@ public class Kit {
     private String nombre;
 
     @Column
+    private int disponible;
+
+    @Column
     private LocalDate fecha_in;
 
-    public Kit(String id, List<Herramienta> herramientas, List<Operacion> operaciones, String rol, String nombre, LocalDate fecha_in) {
+    public Kit(String id, List<Herramienta> herramientas, List<Operacion> operaciones, String rol, String nombre, int disponible, LocalDate fecha_in) {
         this.id = id;
         this.herramientas = herramientas;
         this.operaciones = operaciones;
         this.rol = rol;
         this.nombre = nombre;
+        this.disponible = disponible;
         this.fecha_in = fecha_in;
     }
 
@@ -93,6 +97,14 @@ public class Kit {
         this.operaciones = operaciones;
     }
 
+    public int getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(int disponible) {
+        this.disponible = disponible;
+    }
+
     @Override
     public String toString() {
         return "Kit{" +
@@ -101,6 +113,7 @@ public class Kit {
                 ", operaciones=" + operaciones +
                 ", rol='" + rol + '\'' +
                 ", nombre='" + nombre + '\'' +
+                ", disponible=" + disponible +
                 ", fecha_in=" + fecha_in +
                 '}';
     }

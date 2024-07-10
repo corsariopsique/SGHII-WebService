@@ -1,10 +1,12 @@
 package com.ingeniarinoxidables.sghiiwebservice.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"operaciones"})
 public class Operario {
     @Id
     @Column(name="id_worker")
