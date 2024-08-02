@@ -26,6 +26,12 @@ public class Proveedor {
     @Column
     private LocalDate fecha_in;
 
+    @Column
+    private LocalDate fecha_out;
+
+    @Column
+    private Boolean estado;
+
 
     public Proveedor() {
     }
@@ -34,13 +40,15 @@ public class Proveedor {
         this.id = id;
     }
 
-    public Proveedor(String id, List<Herramienta> herramientas, String nombre, String telefono, String ciudad, LocalDate fecha_in) {
+    public Proveedor(String id, List<Herramienta> herramientas, String nombre, String telefono, String ciudad, LocalDate fecha_in, LocalDate fecha_out, Boolean estado) {
         this.id = id;
         this.herramientas = herramientas;
         this.nombre = nombre;
         this.telefono = telefono;
         this.ciudad = ciudad;
         this.fecha_in = fecha_in;
+        this.fecha_out = fecha_out;
+        this.estado = estado;
     }
 
     public String getId() {
@@ -91,6 +99,22 @@ public class Proveedor {
         this.fecha_in = fecha_in;
     }
 
+    public LocalDate getFecha_out() {
+        return fecha_out;
+    }
+
+    public void setFecha_out(LocalDate fecha_out) {
+        this.fecha_out = fecha_out;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
         return "Proveedor{" +
@@ -100,6 +124,8 @@ public class Proveedor {
                 ", telefono='" + telefono + '\'' +
                 ", ciudad='" + ciudad + '\'' +
                 ", fecha_in=" + fecha_in +
+                ", fecha_out=" + fecha_out +
+                ", estado=" + estado +
                 '}';
     }
 }

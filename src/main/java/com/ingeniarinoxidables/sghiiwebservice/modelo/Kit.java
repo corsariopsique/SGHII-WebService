@@ -21,7 +21,7 @@ public class Kit {
     )
     private List<Herramienta> herramientas;
 
-    @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "kit", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Operacion> operaciones;
 
     @Column
@@ -36,7 +36,13 @@ public class Kit {
     @Column
     private LocalDate fecha_in;
 
-    public Kit(String id, List<Herramienta> herramientas, List<Operacion> operaciones, String rol, String nombre, int disponible, LocalDate fecha_in) {
+    @Column
+    private LocalDate fecha_out;
+
+    @Column
+    private Boolean estado;
+
+    public Kit(String id, List<Herramienta> herramientas, List<Operacion> operaciones, String rol, String nombre, int disponible, LocalDate fecha_in, LocalDate fecha_out, Boolean estado) {
         this.id = id;
         this.herramientas = herramientas;
         this.operaciones = operaciones;
@@ -44,6 +50,8 @@ public class Kit {
         this.nombre = nombre;
         this.disponible = disponible;
         this.fecha_in = fecha_in;
+        this.fecha_out = fecha_out;
+        this.estado = estado;
     }
 
     public Kit() {
@@ -105,6 +113,22 @@ public class Kit {
         this.disponible = disponible;
     }
 
+    public LocalDate getFecha_out() {
+        return fecha_out;
+    }
+
+    public void setFecha_out(LocalDate fecha_out) {
+        this.fecha_out = fecha_out;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
         return "Kit{" +
@@ -115,6 +139,8 @@ public class Kit {
                 ", nombre='" + nombre + '\'' +
                 ", disponible=" + disponible +
                 ", fecha_in=" + fecha_in +
+                ", fecha_out=" + fecha_out +
+                ", estado=" + estado +
                 '}';
     }
 }

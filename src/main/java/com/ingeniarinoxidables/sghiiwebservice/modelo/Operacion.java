@@ -27,13 +27,13 @@ public class Operacion {
     private List<Herramienta> herramienta;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name ="asg_dev_kit",
             joinColumns = @JoinColumn(name="id_operacion_kit",nullable = true),
             inverseJoinColumns = @JoinColumn(name="id_kit")
     )
-    private Kit kit;
+    private List<Kit> kit;
 
     @Column
     private int tipo;
@@ -45,7 +45,7 @@ public class Operacion {
     public Operacion() {
     }
 
-    public Operacion(String id, Operario operario, List<Herramienta> herramienta, Kit kit, int tipo, LocalDate fecha_operacion) {
+    public Operacion(String id, Operario operario, List<Herramienta> herramienta, List<Kit> kit, int tipo, LocalDate fecha_operacion) {
         this.id = id;
         this.operario = operario;
         this.herramienta = herramienta;
@@ -84,11 +84,11 @@ public class Operacion {
         this.herramienta = herramienta;
     }
 
-    public Kit getKit() {
+    public List<Kit> getKit() {
         return kit;
     }
 
-    public void setKit(Kit kit) {
+    public void setKit(List<Kit> kit) {
         this.kit = kit;
     }
 

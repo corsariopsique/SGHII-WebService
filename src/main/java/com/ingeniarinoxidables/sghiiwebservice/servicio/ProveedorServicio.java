@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +19,23 @@ public class ProveedorServicio {
 
     public List<Proveedor> listarProveedores() { return repositorio.findAll(); }
 
+    public List<Proveedor> listarProveedoresPorEstado(Boolean estado){
+        return repositorio.findByEstado(estado);
+    }
+
     public Optional<Proveedor> obtenerProveedorPorId(String id) { return repositorio.findById(id);}
 
-    @Transactional
+
     public Proveedor guardarProveedor(Proveedor proveedor) { return repositorio.save(proveedor); }
 
-    public void eliminarProveedor(String id) { repositorio.deleteById(id); }
+    public Proveedor eliminarProveedor(String id) {
+        Optional<Proveedor> proveedorDeBaja = repositorio.findById(id);
+        if(proveedorDeBaja.isPresent()){
+            proveedorDeBaja.get().setEstado(true);
+            proveedorDeBaja.get().setFecha_out(LocalDate.now());
+            return repositorio.save(proveedorDeBaja.get());
+        }
+        return null;
+    }
 
 }

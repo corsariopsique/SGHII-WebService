@@ -28,6 +28,9 @@ public class Herramienta {
     private LocalDate fecha_in;
 
     @Column
+    private LocalDate fecha_out;
+
+    @Column
     private int cantidad;
 
     @Column
@@ -35,6 +38,9 @@ public class Herramienta {
 
     @Column
     private int cantidad_kits;
+
+    @Column
+    private boolean estado;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
@@ -53,16 +59,18 @@ public class Herramienta {
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, int cantidad, int cantidad_disponible, int cantidad_kits, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, LocalDate fecha_out, int cantidad, int cantidad_disponible, int cantidad_kits, boolean estado, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.rol = rol;
         this.marca = marca;
         this.fecha_in = fecha_in;
+        this.fecha_out = fecha_out;
         this.cantidad = cantidad;
         this.cantidad_disponible = cantidad_disponible;
         this.cantidad_kits = cantidad_kits;
+        this.estado = estado;
         this.proveedor = proveedor;
         this.kits = kits;
         this.operaciones = operaciones;
@@ -163,6 +171,22 @@ public class Herramienta {
         this.cantidad_kits = cantidad_kits;
     }
 
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public LocalDate getFecha_out() {
+        return fecha_out;
+    }
+
+    public void setFecha_out(LocalDate fecha_out) {
+        this.fecha_out = fecha_out;
+    }
+
     @Override
     public String toString() {
         return "Herramienta{" +
@@ -172,12 +196,15 @@ public class Herramienta {
                 ", rol='" + rol + '\'' +
                 ", marca='" + marca + '\'' +
                 ", fecha_in=" + fecha_in +
+                ", fecha_out=" + fecha_out +
                 ", cantidad=" + cantidad +
                 ", cantidad_disponible=" + cantidad_disponible +
                 ", cantidad_kits=" + cantidad_kits +
+                ", estado=" + estado +
                 ", proveedor=" + proveedor +
                 ", kits=" + kits +
                 ", operaciones=" + operaciones +
                 '}';
     }
+
 }

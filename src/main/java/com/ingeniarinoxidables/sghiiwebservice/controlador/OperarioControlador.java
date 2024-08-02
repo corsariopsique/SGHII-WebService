@@ -3,6 +3,7 @@ package com.ingeniarinoxidables.sghiiwebservice.controlador;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListaContenedor;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operario;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.OperarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class OperarioControlador {
 
     @GetMapping
     public ResponseEntity<List<Operario>> listar() {
-        List<Operario> operarios = service.listarOperarios();
+        List<Operario> operarios = service.listarOperariosPorEstado(Boolean.FALSE);
         return ResponseEntity.ok(operarios);
     }
 
@@ -35,6 +36,16 @@ public class OperarioControlador {
         if(operario!=null){
             ListaContenedor<Herramienta, Kit> enPrestamo = service.herramientasPrestamoActivo(id);
             return ResponseEntity.ok(enPrestamo);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/operaciones/{id}")
+    public ResponseEntity<List<Operacion>> operacionesWorker(@PathVariable String id){
+        List<Operacion> operaciones = service.operacionesWorker(id);
+        if(operaciones != null){
+            return ResponseEntity.ok(operaciones);
         }else{
             return ResponseEntity.notFound().build();
         }
@@ -59,6 +70,13 @@ public class OperarioControlador {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable String id) {service.eliminarOperario(id);}
+    public ResponseEntity<Operario> eliminar(@PathVariable String id) {
+        Operario operarioEliminado = service.eliminarOperario(id);
+        if(operarioEliminado != null){
+            return ResponseEntity.ok(operarioEliminado);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

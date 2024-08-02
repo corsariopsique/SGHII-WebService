@@ -65,7 +65,8 @@ public class AuthController {
 
             return ResponseEntity.ok(token);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            TokenDto failed = new TokenDto("Autenticación no valida, token no generado");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(failed);
         }
     }
 

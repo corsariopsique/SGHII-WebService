@@ -59,8 +59,10 @@ public class OperacionControlador {
                 nuevaOperacion.setHerramienta(iteradorHerramientas(newToolsOper));
             }
             if(operacion.getTipo_articulo()==2){
-                Kit kit = serviceKit.obtenerKitPorId(operacion.getKit());
-                nuevaOperacion.setKit(kit);
+                List<Kit> kits_Oper = new ArrayList<>();
+                Kit kit_oper = serviceKit.obtenerKitPorId(operacion.getKit());
+                kits_Oper.add(kit_oper);
+                nuevaOperacion.setKit(kits_Oper);
             }
             Operacion operacionCompleta = service.guardarOperacion(operacion.getOperario(),nuevaOperacion);
 

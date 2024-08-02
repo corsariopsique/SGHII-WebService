@@ -6,6 +6,8 @@ import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperacionRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -20,7 +22,7 @@ public class OperacionServicio {
 
     public Operacion obtenerOperacionPorId(String id) { return repositorio.findById(id).orElse(null); }
 
-
+    @Transactional
     public Operacion guardarOperacion(String idOperador, Operacion operacion ) {
         Operario operario = operarioRepositorio.findById(idOperador).orElseThrow(() -> new RuntimeException("Operario no encontrado"));
         Operacion nueva_Operacion = operacion;

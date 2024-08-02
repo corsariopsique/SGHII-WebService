@@ -9,6 +9,7 @@ import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -19,11 +20,32 @@ public class OperarioServicio {
 
     public List<Operario> listarOperarios() { return repositorio.findAll(); }
 
+    public List<Operario> listarOperariosPorEstado(Boolean estado){
+        return repositorio.findByEstado(estado);
+    }
+
     public Operario obtenerOperarioPorId(String id) { return repositorio.findById(id).orElse(null); }
 
     public Operario guardarOperario(Operario operario) { return repositorio.save(operario); }
 
-    public void eliminarOperario(String id) { repositorio.deleteById(id); }
+    public Operario eliminarOperario(String id) {
+        Optional<Operario> workerDeBaja = repositorio.findById(id);
+        if(workerDeBaja.isPresent()){
+            workerDeBaja.get().setEstado(true);
+            workerDeBaja.get().setFecha_out(LocalDate.now());
+            return repositorio.save(workerDeBaja.get());
+        }
+        return null;
+    }
+
+    public List<Operacion> operacionesWorker(String id){
+        Optional<Operario> workerOper = repositorio.findById(id);
+        if(workerOper.isPresent()){
+            List<Operacion> operaciones = workerOper.get().getOperaciones();
+            return  operaciones;
+        }
+        return null;
+    }
 
     private HashMap<String, Integer> frecuenciaListaTools (List<Herramienta> listado){
         HashMap<String,Integer> freqTools = new HashMap<String, Integer>();
@@ -92,7 +114,7 @@ public class OperarioServicio {
                 if(!operP.getHerramienta().isEmpty()){
                     toolsPrestadas.addAll(operP.getHerramienta());
                 } else if (operP.getKit() != null) {
-                    kitPrestados.add(operP.getKit());
+                    kitPrestados.addAll(operP.getKit());
                 }
             }
 
@@ -100,7 +122,7 @@ public class OperarioServicio {
                 if(!operD.getHerramienta().isEmpty()){
                     toolsDevueltas.addAll(operD.getHerramienta());
                 } else if (operD.getKit() != null) {
-                kitDevueltos.add(operD.getKit());
+                kitDevueltos.addAll(operD.getKit());
                 }
             }
 

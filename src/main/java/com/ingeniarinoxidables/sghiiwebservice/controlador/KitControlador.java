@@ -23,7 +23,7 @@ public class KitControlador {
 
     @GetMapping
     public ResponseEntity<List<Kit>> listar() {
-        List<Kit> kits = service.listarKits();
+        List<Kit> kits = service.listarKitsPorEstado(Boolean.FALSE);
         return ResponseEntity.ok(kits);
     }
 
@@ -40,7 +40,14 @@ public class KitControlador {
         }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable String id) {service.eliminarKit(id);}
+    public ResponseEntity<Kit> eliminar(@PathVariable String id) {
+        Kit kitEliminado = service.eliminarKit(id);
+        if(kitEliminado != null){
+            return ResponseEntity.ok(kitEliminado);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @PostMapping ("/{idkit}/herramientas")
     public ResponseEntity<Kit> addHerramienta(@PathVariable String idkit, @RequestBody List<PaqueteHerramientasKit> herramientasKit){
