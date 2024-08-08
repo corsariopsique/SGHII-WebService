@@ -1,6 +1,7 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.AgregarOperacion;
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperacionesResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.PaqueteHerramientasKit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
@@ -43,6 +44,12 @@ public class OperacionControlador {
     public ResponseEntity<Operacion> obtenerPorId(@PathVariable String id) {
         Operacion operacion = service.obtenerOperacionPorId(id);
         return ResponseEntity.ok(operacion);
+    }
+
+    @GetMapping("/resumen")
+    public ResponseEntity<OperacionesResumenDto> resumen(){
+        OperacionesResumenDto resumen = service.resumen();
+        return ResponseEntity.ok(resumen);
     }
 
     @PostMapping

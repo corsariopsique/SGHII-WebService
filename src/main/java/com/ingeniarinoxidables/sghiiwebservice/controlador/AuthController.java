@@ -54,7 +54,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody UserDto dataLogin, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<TokenDto> login(@RequestBody UserDto dataLogin) {
         try {
             Authentication authentication = verificador.authenticate(
                     new UsernamePasswordAuthenticationToken(dataLogin.getUsername(),dataLogin.getPassword(), Collections.emptyList())

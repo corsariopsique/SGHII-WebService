@@ -1,22 +1,34 @@
 package com.ingeniarinoxidables.sghiiwebservice.servicio;
 
-import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListaContenedor;
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.*;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoHerramientasTopDto;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoKitsTopDto;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operario;
+import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
+import com.ingeniarinoxidables.sghiiwebservice.repositorio.KitRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OperarioServicio {
 
     @Autowired
     private OperarioRepositorio repositorio;
+
+    @Autowired
+    private HerramientaRepositorio repositorioTools;
+
+    @Autowired
+    private KitRepositorio repositorioKits;
 
     public List<Operario> listarOperarios() { return repositorio.findAll(); }
 
@@ -42,8 +54,79 @@ public class OperarioServicio {
         Optional<Operario> workerOper = repositorio.findById(id);
         if(workerOper.isPresent()){
             List<Operacion> operaciones = workerOper.get().getOperaciones();
+            operaciones.sort(new ComparadorOperaciones().reversed());
             return  operaciones;
         }
+        return null;
+    }
+
+    public OperarioResumenDto resumen(){
+        OperarioResumenDto resumen = new OperarioResumenDto();
+        List<Operario> todos = repositorio.findAll();
+        HashSet<String> roles = new HashSet<>();
+        resumen.setOperariosReg(todos.size());
+        int contActivos = 0;
+        for (Operario worker : todos){
+            if(!worker.getEstado()){
+                ++contActivos;
+            }
+            roles.add(worker.getRol());
+        }
+        resumen.setOperariosActivos(contActivos);
+        resumen.setOperariosDeBaja(todos.size()-contActivos);
+        resumen.setOperariosRoles(roles.size());
+        resumen.setRoles(roles);
+        return resumen;
+    }
+
+    public OperarioResumenPorIdDto resumenPorID (String id){
+        OperarioResumenPorIdDto resumenWorker = new OperarioResumenPorIdDto();
+        List<ListadoHerramientasTopDto> listaToolsMax = new ArrayList<>();
+        List<ListadoKitsTopDto> listaKitsMax = new ArrayList<>();
+        Optional<Operario> worker = repositorio.findById(id);
+        if (worker.isPresent()){
+            List<Operacion> operWorker = operacionesWorker(id);
+
+            Map<String, Long> herramientaContador = operWorker.stream()
+                    .filter(operacion -> (operacion.getTipo()==1))
+                    .flatMap(operacion -> operacion.getHerramienta().stream())
+                    .collect(Collectors.groupingBy(herramienta -> herramienta.getId(), Collectors.counting()));
+
+            Map<String,Long> kitContador = operWorker.stream()
+                    .filter(operacion -> (operacion.getTipo()==1))
+                    .flatMap((operacion -> operacion.getKit().stream()))
+                    .collect(Collectors.groupingBy(kit -> kit.getId(),Collectors.counting()));
+
+
+            herramientaContador.forEach((idTool,cantidad) -> {
+                ListadoHerramientasTopDto elementoLista = new ListadoHerramientasTopDto();
+                elementoLista.setTool(repositorioTools.findById(idTool).get());
+                elementoLista.setCantidad(cantidad);
+                listaToolsMax.add(elementoLista);
+            });
+
+            kitContador.forEach((idKit,cantidad) -> {
+                ListadoKitsTopDto elementoLista = new ListadoKitsTopDto();
+                elementoLista.setKit(repositorioKits.findById(idKit).get());
+                elementoLista.setCantidad(cantidad);
+                listaKitsMax.add(elementoLista);
+            });
+
+            listaToolsMax.sort(new ComparadorListadoHerramientasTopDto().reversed());
+            listaKitsMax.sort(new ComparadorListadoKitsTopDto().reversed());
+
+            resumenWorker.setTotalOper(operWorker.size());
+            resumenWorker.setPrestamos(repositorio.contadorOperWorker(1,id));
+            resumenWorker.setDevoluciones(repositorio.contadorOperWorker(2,id));
+            resumenWorker.setOperL30d(repositorio.conteoOperacionesFecha(LocalDate.now().minusMonths(1),LocalDate.now(),id));
+            resumenWorker.setListaUsoTools(listaToolsMax);
+            resumenWorker.setListaUsoKits(listaKitsMax);
+            resumenWorker.setTotalKits(kitContador.size());
+            resumenWorker.setTotalTools(herramientaContador.size());
+
+            return resumenWorker;
+        }
+
         return null;
     }
 
@@ -51,18 +134,12 @@ public class OperarioServicio {
         HashMap<String,Integer> freqTools = new HashMap<String, Integer>();
         for(Herramienta itemP : listado){
 
-            int count_freq = 0;
-
             if(!freqTools.containsKey(itemP.getId())){
-
-                for(Herramienta itemPP : listado){
-                    if(itemP.getId()==itemPP.getId()){
-                        ++count_freq;
-                    }
-                }            
+                int count_freq = Collections.frequency(listado,itemP);
                 freqTools.put(itemP.getId(),count_freq);
             }
         }
+
         return freqTools;
     }
 
@@ -70,15 +147,8 @@ public class OperarioServicio {
         HashMap<String,Integer> freqKits = new HashMap<String, Integer>();
         for(Kit itemP : listado){
 
-            int count_freq = 0;
-
             if(!freqKits.containsKey(itemP.getId())){
-
-                for(Kit itemPP : listado) {
-                    if (itemP.getId() == itemPP.getId()) {
-                        ++count_freq;
-                    }
-                }
+                int count_freq = Collections.frequency(listado,itemP);
                 freqKits.put(itemP.getId(),count_freq);
             }
         }
@@ -137,7 +207,7 @@ public class OperarioServicio {
                     for(int i = 0; i<countTool; i++){
                         herramientas_PorEntregar.add(item);
                     }
-                }else if (freqHerramientaD.get(item.getId())==null){
+                }else if (freqHerramientaD.get(item.getId())==null && !herramientas_PorEntregar.contains(item)){
                     for(int i = 0; i<freqHerramientaP.get(item.getId()); i++) {
                         herramientas_PorEntregar.add(item);
                     }
@@ -150,7 +220,7 @@ public class OperarioServicio {
                     for(int i = 0; i<countKit;i++){
                         kits_PorEntregar.add(item);
                     }
-                } else if (freqKitD.get(item.getId())==null) {
+                } else if (freqKitD.get(item.getId())==null && !kits_PorEntregar.contains(item)) {
                     for(int i = 0; i<freqKitP.get(item.getId());i++){
                         kits_PorEntregar.add(item);
                     }

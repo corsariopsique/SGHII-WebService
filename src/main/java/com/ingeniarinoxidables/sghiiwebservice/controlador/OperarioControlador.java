@@ -1,6 +1,8 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListaContenedor;
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperarioResumenDto;
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperarioResumenPorIdDto;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
@@ -30,7 +32,7 @@ public class OperarioControlador {
         return ResponseEntity.ok(operario);
     }
 
-    @GetMapping("/prestamo/{id}")
+    @GetMapping("/{id}/prestamo")
     public ResponseEntity<ListaContenedor> enPrestamoPorId(@PathVariable String id){
         Operario operario = service.obtenerOperarioPorId(id);
         if(operario!=null){
@@ -41,7 +43,7 @@ public class OperarioControlador {
         }
     }
 
-    @GetMapping("/operaciones/{id}")
+    @GetMapping("/{id}/operaciones")
     public ResponseEntity<List<Operacion>> operacionesWorker(@PathVariable String id){
         List<Operacion> operaciones = service.operacionesWorker(id);
         if(operaciones != null){
@@ -49,6 +51,18 @@ public class OperarioControlador {
         }else{
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/resumen")
+    public ResponseEntity<OperarioResumenDto> resumen(){
+        OperarioResumenDto resumen = service.resumen();
+        return ResponseEntity.ok(resumen);
+    }
+
+    @GetMapping("/{id}/resumen")
+    public ResponseEntity<OperarioResumenPorIdDto> resumenPorID (@PathVariable String id){
+        OperarioResumenPorIdDto resumenPorIdDto = service.resumenPorID(id);
+        return ResponseEntity.ok(resumenPorIdDto);
     }
 
     @PostMapping

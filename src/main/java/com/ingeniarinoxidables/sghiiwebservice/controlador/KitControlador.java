@@ -1,9 +1,12 @@
 package com.ingeniarinoxidables.sghiiwebservice.controlador;
 
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.KitEditar;
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.KitResumenDto;
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.KitResumenPorIdDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.PaqueteHerramientasKit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.HerramientaServicio;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.KitServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,28 @@ public class KitControlador {
     public ResponseEntity<Kit> obtenerPorId(@PathVariable String id) {
         Kit kit = service.obtenerKitPorId(id);
         return ResponseEntity.ok(kit);
+    }
+
+    @GetMapping("/{id}/operaciones")
+    public ResponseEntity<List<Operacion>> listarOperaciones(@PathVariable String id){
+        List<Operacion> operaciones = service.listarOperacionesKits(id);
+        if(operaciones != null){
+            return ResponseEntity.ok(operaciones);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/resumen")
+    public ResponseEntity<KitResumenDto> resumen (){
+        KitResumenDto resumen = service.resumen();
+        return ResponseEntity.ok(resumen);
+    }
+
+    @GetMapping("{id}/resumen")
+    public ResponseEntity<KitResumenPorIdDto> resumenPorId (@PathVariable String id){
+        KitResumenPorIdDto resumen = service.resumenPorId(id);
+        return ResponseEntity.ok(resumen);
     }
 
     @PostMapping

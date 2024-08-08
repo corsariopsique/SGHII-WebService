@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,10 +71,13 @@ public class ProveedorControlador {
                 herramientaServicio.dropSuplier(tool.getId(),proveedorActualizado);
             }
             service.guardarProveedor(proveedorActualizado);
+            HashSet<Tool> listaSinDobles = new HashSet<>();
             for(Tool tool : proveedor.getHerramientas()){
-                Optional herramienta = herramientaServicio.obtenerHerramientaPorId(tool.getId());
-                if(herramienta.isPresent()){
-                    herramientaServicio.addProveedor(tool.getId(),proveedorActualizado);
+                if(listaSinDobles.add(tool)){
+                    Optional herramienta = herramientaServicio.obtenerHerramientaPorId(tool.getId());
+                    if(herramienta.isPresent()){
+                        herramientaServicio.addProveedor(tool.getId(),proveedorActualizado);
+                    }
                 }
             }
             return ResponseEntity.ok(proveedorActualizado);
