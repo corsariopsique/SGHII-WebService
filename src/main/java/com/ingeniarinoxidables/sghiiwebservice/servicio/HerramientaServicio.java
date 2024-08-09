@@ -4,6 +4,8 @@ import com.ingeniarinoxidables.sghiiwebservice.DTOs.HerramientaResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.HerramientaResumenPorIdDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoOperariosTopDto;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoKitsTopDto;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoOperariosTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
@@ -170,6 +172,8 @@ public class HerramientaServicio {
                 }
             });
 
+            listaOperariosTool.sort(new ComparadorListadoOperariosTopDto().reversed());
+
             kitsTool.forEach((idKit,listaTools) -> {
                 ListadoKitsTopDto kitTool = new ListadoKitsTopDto();
                 listaTools.forEach((idTool,cantidad) -> {
@@ -180,8 +184,9 @@ public class HerramientaServicio {
                 });
 
                 listaKitsTool.add(kitTool);
-
             });
+
+            listaKitsTool.sort(new ComparadorListadoKitsTopDto().reversed());
 
             resumen.setTotalOper((long) toolOperaciones.size());
             resumen.setOperPrestamos((long) prestamos.size());

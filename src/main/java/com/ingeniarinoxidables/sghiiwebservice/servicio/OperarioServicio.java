@@ -90,12 +90,12 @@ public class OperarioServicio {
             Map<String, Long> herramientaContador = operWorker.stream()
                     .filter(operacion -> (operacion.getTipo()==1))
                     .flatMap(operacion -> operacion.getHerramienta().stream())
-                    .collect(Collectors.groupingBy(herramienta -> herramienta.getId(), Collectors.counting()));
+                    .collect(Collectors.groupingBy(Herramienta::getId, Collectors.counting()));
 
             Map<String,Long> kitContador = operWorker.stream()
                     .filter(operacion -> (operacion.getTipo()==1))
                     .flatMap((operacion -> operacion.getKit().stream()))
-                    .collect(Collectors.groupingBy(kit -> kit.getId(),Collectors.counting()));
+                    .collect(Collectors.groupingBy(Kit::getId,Collectors.counting()));
 
 
             herramientaContador.forEach((idTool,cantidad) -> {

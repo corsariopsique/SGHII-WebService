@@ -3,6 +3,7 @@ package com.ingeniarinoxidables.sghiiwebservice.servicio;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.KitResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.KitResumenPorIdDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoOperariosTopDto;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoOperariosTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
@@ -106,6 +107,8 @@ public class KitServicio {
                 elementoOperarioKit.setCantidad(cantidad);
                 listaOperariosKits.add(elementoOperarioKit);
             });
+
+            listaOperariosKits.sort(new ComparadorListadoOperariosTopDto().reversed());
 
             resumen.setOperPrestamo((long) prestamos.size());
             resumen.setOperDevolucion((long) devoluciones.size());

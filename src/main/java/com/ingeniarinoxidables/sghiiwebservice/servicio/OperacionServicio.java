@@ -48,6 +48,7 @@ public class OperacionServicio {
             Long oper = (Long) obj[0];
             contOper = contOper + oper;
         }
+
        double avgOperWorker = contOper/ workerOper.size();
 
         Double promedioHerramientaOperacion = repositorio.promedioToolsOper();
@@ -56,6 +57,9 @@ public class OperacionServicio {
         Long operL1d = repositorio.conteoOperacionesFecha(LocalDate.now().minusDays(1),LocalDate.now());
         Long operL7d = repositorio.conteoOperacionesFecha(LocalDate.now().minusDays(7),LocalDate.now());
         Long operL30d = repositorio.conteoOperacionesFecha(LocalDate.now().minusMonths(1), LocalDate.now());
+
+        Long operL30dTools = repositorio.conteoOperFechaTools(LocalDate.now().minusMonths(1), LocalDate.now());
+        Long operL30dKits = repositorio.conteoOperFechaKits(LocalDate.now().minusMonths(1), LocalDate.now());
 
         resumen.setTotalOperaciones(todas.size());
         resumen.setPrestamos(repositorio.contadorOperacionesTipo(1));
@@ -67,6 +71,8 @@ public class OperacionServicio {
         resumen.setOperDay(operL1d);
         resumen.setOperWeek(operL7d);
         resumen.setOperMonth(operL30d);
+        resumen.setOperL30dTools(operL30dTools);
+        resumen.setOperL30dKits(operL30dKits);
 
         return resumen;
     }

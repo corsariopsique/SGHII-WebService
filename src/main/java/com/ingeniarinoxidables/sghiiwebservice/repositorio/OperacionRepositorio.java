@@ -13,6 +13,12 @@ public interface OperacionRepositorio extends JpaRepository<Operacion,String>{
     @Query("SELECT COUNT(t) FROM asignacion_devolucion t WHERE t.fecha_operacion BETWEEN :startDate AND :endDate")
     Long conteoOperacionesFecha(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
+    @Query("SELECT COUNT(t) FROM asignacion_devolucion t WHERE SIZE(t.kit) = 0 AND t.fecha_operacion BETWEEN :startDate AND :endDate")
+    Long conteoOperFechaTools(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT COUNT(t) FROM asignacion_devolucion t WHERE SIZE(t.herramienta) = 0 AND t.fecha_operacion BETWEEN :startDate AND :endDate")
+    Long conteoOperFechaKits(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
     @Query("SELECT COUNT(o.operario) FROM asignacion_devolucion o GROUP BY o.operario")
     List<Object[]> promedioOperOperador();
 

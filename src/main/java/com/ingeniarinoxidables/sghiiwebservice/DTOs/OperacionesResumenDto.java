@@ -13,7 +13,27 @@ public class OperacionesResumenDto {
     private Long operWeek;
     private Long operMonth;
 
+    private Long operL30dTools;
+
+    private Long operL30dKits;
+
     public OperacionesResumenDto() {
+    }
+
+    public Long getOperL30dTools() {
+        return operL30dTools;
+    }
+
+    public void setOperL30dTools(Long operL30dTools) {
+        this.operL30dTools = operL30dTools;
+    }
+
+    public Long getOperL30dKits() {
+        return operL30dKits;
+    }
+
+    public void setOperL30dKits(Long operL30dKits) {
+        this.operL30dKits = operL30dKits;
     }
 
     public int getTotalOperaciones() {
