@@ -5,19 +5,84 @@ public class OperacionesResumenDto {
     private int totalOperaciones;
     private Long prestamos;
     private Long devoluciones;
-    private Double toolMeanOperacion;
-    private Long operTool;
-    private Long operKit;
     private Double promedioOperWorker;
-    private Long operDay;
-    private Long operWeek;
-    private Long operMonth;
-
     private Long operL30dTools;
-
     private Long operL30dKits;
+    private Long workersOperPL7d;
+    private Long workersOperDL7d;
+    private Long operL7dP;
+    private Long operL7dD;
+    private Long toolsOperL7dP;
+    private Long toolsOperL7dD;
+    private Long kitsOperL7dP;
+    private Long kitsOperL7dD;
+
 
     public OperacionesResumenDto() {
+    }
+
+    public Long getToolsOperL7dP() {
+        return toolsOperL7dP;
+    }
+
+    public void setToolsOperL7dP(Long toolsOperL7dP) {
+        this.toolsOperL7dP = toolsOperL7dP;
+    }
+
+    public Long getToolsOperL7dD() {
+        return toolsOperL7dD;
+    }
+
+    public void setToolsOperL7dD(Long toolsOperL7dD) {
+        this.toolsOperL7dD = toolsOperL7dD;
+    }
+
+    public Long getKitsOperL7dP() {
+        return kitsOperL7dP;
+    }
+
+    public void setKitsOperL7dP(Long kitsOperL7dP) {
+        this.kitsOperL7dP = kitsOperL7dP;
+    }
+
+    public Long getKitsOperL7dD() {
+        return kitsOperL7dD;
+    }
+
+    public void setKitsOperL7dD(Long kitsOperL7dD) {
+        this.kitsOperL7dD = kitsOperL7dD;
+    }
+
+    public Long getWorkersOperPL7d() {
+        return workersOperPL7d;
+    }
+
+    public void setWorkersOperPL7d(Long workersOperPL7d) {
+        this.workersOperPL7d = workersOperPL7d;
+    }
+
+    public Long getWorkersOperDL7d() {
+        return workersOperDL7d;
+    }
+
+    public void setWorkersOperDL7d(Long workersOperDL7d) {
+        this.workersOperDL7d = workersOperDL7d;
+    }
+
+    public Long getOperL7dP() {
+        return operL7dP;
+    }
+
+    public void setOperL7dP(Long operL7dP) {
+        this.operL7dP = operL7dP;
+    }
+
+    public Long getOperL7dD() {
+        return operL7dD;
+    }
+
+    public void setOperL7dD(Long operL7dD) {
+        this.operL7dD = operL7dD;
     }
 
     public Long getOperL30dTools() {
@@ -60,14 +125,6 @@ public class OperacionesResumenDto {
         this.devoluciones = devoluciones;
     }
 
-    public Double getToolMeanOperacion() {
-        return toolMeanOperacion;
-    }
-
-    public void setToolMeanOperacion(Double toolMeanOperacion) {
-        this.toolMeanOperacion = toolMeanOperacion;
-    }
-
     public Double getPromedioOperWorker() {
         return promedioOperWorker;
     }
@@ -76,43 +133,4 @@ public class OperacionesResumenDto {
         this.promedioOperWorker = promedioOperWorker;
     }
 
-    public Long getOperTool() {
-        return operTool;
-    }
-
-    public void setOperTool(Long operTool) {
-        this.operTool = operTool;
-    }
-
-    public Long getOperKit() {
-        return operKit;
-    }
-
-    public void setOperKit(Long operKit) {
-        this.operKit = operKit;
-    }
-
-    public Long getOperDay() {
-        return operDay;
-    }
-
-    public void setOperDay(Long operDay) {
-        this.operDay = operDay;
-    }
-
-    public Long getOperWeek() {
-        return operWeek;
-    }
-
-    public void setOperWeek(Long operWeek) {
-        this.operWeek = operWeek;
-    }
-
-    public Long getOperMonth() {
-        return operMonth;
-    }
-
-    public void setOperMonth(Long operMonth) {
-        this.operMonth = operMonth;
-    }
 }

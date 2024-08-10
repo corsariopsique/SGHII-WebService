@@ -4,6 +4,7 @@ import com.ingeniarinoxidables.sghiiwebservice.DTOs.HerramientaResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.HerramientaResumenPorIdDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoOperariosTopDto;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorHerramientas;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoOperariosTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
@@ -64,10 +65,10 @@ public class HerramientaServicio {
 
     public HerramientaResumenDto resumen (){
         HerramientaResumenDto resumen = new HerramientaResumenDto();
-        List<Herramienta> todas = repositorio.findAll();
         List<Herramienta> ingresosL30d = repositorio.listaHeramientaInRangoDate(LocalDate.now()
                 .minusMonths(1),LocalDate.now());
         List<Herramienta> herramientasEscasas = repositorio.listarHerramientaEscasa();
+        ingresosL30d.sort(new ComparadorHerramientas().reversed());
         resumen.setHerramientasReg(repositorio.herramientasTodas());
         resumen.setTotalPiezas(repositorio.piezasTotales());
         resumen.setHerramientasActivas(repositorio.herramientasActivas());
@@ -80,6 +81,7 @@ public class HerramientaServicio {
         resumen.setPiezasDisponibles(repositorio.piezasDisponibles());
         resumen.setPiezasPrestamo(repositorio.piezasTotalesActivas()
                 - repositorio.piezasDisponibles() - repositorio.piezasKits());
+
         return resumen;
     }
 
