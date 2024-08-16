@@ -7,10 +7,9 @@ import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operario;
-import com.ingeniarinoxidables.sghiiwebservice.servicio.HerramientaServicio;
-import com.ingeniarinoxidables.sghiiwebservice.servicio.KitServicio;
-import com.ingeniarinoxidables.sghiiwebservice.servicio.OperacionServicio;
-import com.ingeniarinoxidables.sghiiwebservice.servicio.OperarioServicio;
+import com.ingeniarinoxidables.sghiiwebservice.servicio.*;
+import com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets.DataSetHerramientasFrecuencia;
+import com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets.DataSetsOperacionesTipo7d;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,6 @@ public class OperacionControlador {
 
     @Autowired
     private OperacionServicio service;
-
     @Autowired
     private HerramientaServicio serviceTool;
 
@@ -33,6 +31,12 @@ public class OperacionControlador {
 
     @Autowired
     private KitServicio serviceKit;
+
+    @Autowired
+    private DataSetsOperacionesTipo7d servicioDataSet;
+
+    @Autowired
+    private DataSetHerramientasFrecuencia servicioDataSetFreqTools;
 
     @GetMapping
     public ResponseEntity<List<Operacion>> listar() {
@@ -50,6 +54,22 @@ public class OperacionControlador {
     public ResponseEntity<OperacionesResumenDto> resumen(){
         OperacionesResumenDto resumen = service.resumen();
         return ResponseEntity.ok(resumen);
+    }
+
+    @GetMapping("/data/oper7d")
+    public ResponseEntity<String> dataPrestamos(){
+        String data = servicioDataSet.jsonData();
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/json; charset=UTF-8")
+                .body(data);
+    }
+
+    @GetMapping("/data/freqtools")
+    public ResponseEntity<String> dataFreqTools(){
+        String data = servicioDataSetFreqTools.getJson();
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/json; charset=UTF-8")
+                .body(data);
     }
 
     @PostMapping

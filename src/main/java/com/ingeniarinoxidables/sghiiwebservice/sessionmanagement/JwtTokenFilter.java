@@ -1,10 +1,11 @@
 package com.ingeniarinoxidables.sghiiwebservice.sessionmanagement;
 
+import com.ingeniarinoxidables.sghiiwebservice.DTOs.UPATDto;
+import com.ingeniarinoxidables.sghiiwebservice.servicio.AutenticacionServicio;
 import jakarta.servlet.ServletException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,23 +18,23 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final UserDetailsService userDetailsService;
 
-    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userDetailsService = userDetailsService;
+    @Autowired
+    private AutenticacionServicio authServicio;
+
+    public JwtTokenFilter() {
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, jakarta.servlet.ServletException, ServletException {
         String header = request.getHeader("Authorization");
+
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-            if (jwtTokenProvider.validateToken(token)) {
-                String username = jwtTokenProvider.getUsername(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            UPATDto plantilla = authServicio.getAuth(token);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(plantilla.getPrincipal(),null, plantilla.getAuthorities());
+
+            if (plantilla!= null) {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

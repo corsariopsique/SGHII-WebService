@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface OperacionRepositorio extends JpaRepository<Operacion,String>{
 
-    @Query("SELECT COUNT(t) FROM asignacion_devolucion t WHERE t.fecha_operacion BETWEEN :startDate AND :endDate")
-    Long conteoOperacionesFecha(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    @Query("SELECT t FROM asignacion_devolucion t WHERE t.fecha_operacion BETWEEN :startDate AND :endDate")
+    List<Operacion> operacionesRangoFecha(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     @Query("SELECT COUNT(t) FROM asignacion_devolucion t WHERE SIZE(t.kit) = 0 AND t.fecha_operacion BETWEEN :startDate AND :endDate")
     Long conteoOperFechaTools(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
@@ -25,11 +25,11 @@ public interface OperacionRepositorio extends JpaRepository<Operacion,String>{
     @Query("SELECT COUNT(o) FROM asignacion_devolucion o WHERE o.tipo = :tipo")
     Long contadorOperacionesTipo(@Param("tipo") int tipo);
 
-    @Query("SELECT COUNT(o) FROM asignacion_devolucion o WHERE SIZE(o.herramienta) > 0")
-    Long findOperByTools ();
+    @Query("SELECT o FROM asignacion_devolucion o WHERE SIZE(o.herramienta) > 0")
+    List<Operacion> findOperByTools ();
 
-    @Query("SELECT COUNT(t) FROM asignacion_devolucion t WHERE SIZE(t.kit) > 0")
-    Long findOperByKits ();
+    @Query("SELECT t FROM asignacion_devolucion t WHERE SIZE(t.kit) > 0")
+    List<Operacion> findOperByKits ();
 
     @Query("SELECT AVG(SIZE(o.herramienta)) FROM asignacion_devolucion o WHERE SIZE(o.herramienta) > 0")
     Double promedioToolsOper();

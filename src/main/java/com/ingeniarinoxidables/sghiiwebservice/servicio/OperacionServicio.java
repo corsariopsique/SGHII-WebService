@@ -43,8 +43,7 @@ public class OperacionServicio {
     @Transactional
     public Operacion guardarOperacion(String idOperador, Operacion operacion ) {
         Operario operario = operarioRepositorio.findById(idOperador).orElseThrow(() -> new RuntimeException("Operario no encontrado"));
-        Operacion nueva_Operacion = operacion;
-        nueva_Operacion.setOperario(operario);
+        operacion.setOperario(operario);
         return repositorio.save(operacion);
     }
 
@@ -65,9 +64,7 @@ public class OperacionServicio {
             contOper = contOper + oper;
         }
 
-       double avgOperWorker = contOper/ workerOper.size();
-
-        Double promedioOperTrabajador = avgOperWorker;
+        Double promedioOperTrabajador = contOper/ workerOper.size();
 
         Long operL30dTools = repositorio.conteoOperFechaTools(LocalDate.now().minusMonths(1), LocalDate.now());
         Long operL30dKits = repositorio.conteoOperFechaKits(LocalDate.now().minusMonths(1), LocalDate.now());
@@ -89,40 +86,11 @@ public class OperacionServicio {
                 .collect(Collectors.groupingBy(operacion -> operacion.getOperario().getId(),Collectors.counting()));
 
 
-        Map <String,Map <String, Long>> toolsOperL7dDevoluciones = operL7dDevoluciones.stream()
-                        .collect(Collectors.toMap(
-                                Operacion::getId,
-                                operacion -> operacion.getHerramienta().stream()
-                                        .collect(Collectors.groupingBy(
-                                                Herramienta::getId,
-                                                Collectors.counting()
-                                        )),
-                                (existing, replacement) -> {
-                                    replacement.forEach(
-                                            (key, value) -> existing.merge(key, value, Long::max)
-                                    );
-                                    return existing;
-                                }
-
-                        ));
+        Map<String, Map<String, Long>> toolsOperL7dDevoluciones = mapaOper7d(operL7dDevoluciones);
+        Map<String, Map<String, Long>> toolsOperL7dPrestamos = mapaOper7d(operL7dPrestamos);
 
 
-        Map <String,Map <String, Long>> toolsOperL7dPrestamos = operL7dPrestamos.stream()
-                .collect(Collectors.toMap(
-                        Operacion::getId,
-                        operacion -> operacion.getHerramienta().stream()
-                                .collect(Collectors.groupingBy(
-                                        Herramienta::getId,
-                                        Collectors.counting()
-                                )),
-                        (existing, replacement) -> {
-                            replacement.forEach(
-                                    (key, value) -> existing.merge(key, value, Long::max)
-                            );
-                            return existing;
-                        }
-
-                ));
+        mapaOper7d(operL7dPrestamos);
 
         Map <String,Map <String, Long>> kitsOperL7dDevoluciones = operL7dDevoluciones.stream()
                 .collect(Collectors.toMap(
@@ -196,6 +164,26 @@ public class OperacionServicio {
         resumen.setOperL30dKits(operL30dKits);
 
         return resumen;
+    }
+
+    private Map<String, Map<String, Long>> mapaOper7d(List<Operacion> operL7d) {
+        Map <String,Map <String, Long>> toolsOperL7d = operL7d.stream()
+                        .collect(Collectors.toMap(
+                                Operacion::getId,
+                                operacion -> operacion.getHerramienta().stream()
+                                        .collect(Collectors.groupingBy(
+                                                Herramienta::getId,
+                                                Collectors.counting()
+                                        )),
+                                (existing, replacement) -> {
+                                    replacement.forEach(
+                                            (key, value) -> existing.merge(key, value, Long::max)
+                                    );
+                                    return existing;
+                                }
+                        ));
+
+        return toolsOperL7d;
     }
 
 }
