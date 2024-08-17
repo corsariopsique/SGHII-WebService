@@ -1,9 +1,6 @@
 package com.ingeniarinoxidables.sghiiwebservice.sessionmanagement;
 
-import com.ingeniarinoxidables.sghiiwebservice.DTOs.UPATDto;
-import com.ingeniarinoxidables.sghiiwebservice.servicio.AutenticacionServicio;
 import jakarta.servlet.ServletException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -18,11 +15,10 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private AutenticacionServicio authServicio;
-
-    public JwtTokenFilter() {
+    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -31,10 +27,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-            UPATDto plantilla = authServicio.getAuth(token);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(plantilla.getPrincipal(),null, plantilla.getAuthorities());
 
-            if (plantilla!= null) {
+            if (jwtTokenProvider.validateToken(token)) {
+
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(jwtTokenProvider.getUsername(token),null, jwtTokenProvider.extractAuthorities(token));
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
