@@ -3,10 +3,7 @@ package com.ingeniarinoxidables.sghiiwebservice.controlador;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListaContenedor;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperarioResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperarioResumenPorIdDto;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Operario;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.OperarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +29,12 @@ public class OperarioControlador {
         return ResponseEntity.ok(operario);
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     @GetMapping("/{id}/prestamo")
     public ResponseEntity<ListaContenedor> enPrestamoPorId(@PathVariable String id){
         Operario operario = service.obtenerOperarioPorId(id);
         if(operario!=null){
-            ListaContenedor<Herramienta, Kit> enPrestamo = service.herramientasPrestamoActivo(id);
+            ListaContenedor<ItemHerramienta, Kit> enPrestamo = service.herramientasPrestamoActivo(id);
             return ResponseEntity.ok(enPrestamo);
         }else{
             return ResponseEntity.notFound().build();

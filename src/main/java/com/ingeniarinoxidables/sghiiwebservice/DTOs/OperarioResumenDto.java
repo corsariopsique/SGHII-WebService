@@ -1,7 +1,6 @@
 package com.ingeniarinoxidables.sghiiwebservice.DTOs;
 
 import java.util.HashSet;
-import java.util.List;
 
 public class OperarioResumenDto {
 

@@ -3,13 +3,16 @@ package com.ingeniarinoxidables.sghiiwebservice.controlador;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.HerramientaResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.HerramientaResumenPorIdDto;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.ItemHerramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Proveedor;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.HerramientaServicio;
+import com.ingeniarinoxidables.sghiiwebservice.servicio.ItemHerramientaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +22,9 @@ public class HerramientaControlador {
 
     @Autowired
     private HerramientaServicio service;
+
+    @Autowired
+    private ItemHerramientaServicio itemHerramientaServicio;
 
     @GetMapping
     public ResponseEntity<List<Herramienta>> listar() {
@@ -36,6 +42,7 @@ public class HerramientaControlador {
         }
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     @GetMapping("/{id}/operaciones")
     public ResponseEntity<List<Operacion>> listarOperaciones(@PathVariable String id){
         List<Operacion> operaciones = service.listarOperacionesTool(id);
@@ -78,6 +85,30 @@ public class HerramientaControlador {
     public ResponseEntity<Herramienta> actualizar (@PathVariable String id, @RequestBody Herramienta herramienta){
         Optional<Herramienta> herramientaExistente = service.obtenerHerramientaPorId(id);
         if (herramientaExistente.isPresent()) {
+
+            if(herramientaExistente.get().getCantidad() > herramienta.getCantidad()){
+
+                int diferencia = herramientaExistente.get().getCantidad() - herramienta.getCantidad();
+                if(herramientaExistente.get().getCantidad_disponible()<diferencia){
+                    return ResponseEntity.badRequest().build();
+                }else{
+                    for(int i = 0; i<diferencia;i++){
+                        ItemHerramienta item = itemHerramientaServicio.itemParaAsignar(herramientaExistente.get().getItems());
+                        itemHerramientaServicio.eliminarItemHerramienta(item.getId());
+                    }
+                }
+
+            } else if (herramientaExistente.get().getCantidad() < herramienta.getCantidad()){
+                int diferencia = herramienta.getCantidad() - herramientaExistente.get().getCantidad();
+
+                for(int i = 0; i<diferencia; i++){
+                    ItemHerramienta item = new ItemHerramienta();
+                    item.setHerramienta(herramientaExistente.get());
+                    item.setEstado(0);
+                    item.setFecha_in(LocalDate.now());
+                    itemHerramientaServicio.guardarItem(item);
+                }
+            }
             herramienta.setId(id);
             herramienta.setProveedor(herramientaExistente.get().getProveedor());
             Herramienta herramientaModificada = service.guardarHerramienta(herramienta);
@@ -91,6 +122,12 @@ public class HerramientaControlador {
     public ResponseEntity<Herramienta> eliminar (@PathVariable String id){
         Herramienta toolEliminada = service.eliminarHerramienta(id);
         if ( toolEliminada != null){
+            List<ItemHerramienta> itemTool = itemHerramientaServicio.listarItemsByTool(id);
+            for(ItemHerramienta item: itemTool){
+                item.setEstado(1);
+                item.setFecha_out(LocalDate.now());
+                itemHerramientaServicio.guardarItem(item);
+            }
             return ResponseEntity.ok().body(toolEliminada);
         }else{
             return ResponseEntity.notFound().build();

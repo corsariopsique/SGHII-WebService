@@ -4,10 +4,7 @@ import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoHerramientasTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperacionesResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Operario;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.KitRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperacionRepositorio;
@@ -47,6 +44,7 @@ public class OperacionServicio {
         return repositorio.save(operacion);
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     public OperacionesResumenDto resumen(){
         OperacionesResumenDto resumen = new OperacionesResumenDto();
 
@@ -85,12 +83,20 @@ public class OperacionServicio {
         Map <String,Long> workerOperL7dDevoluciones = operL7dDevoluciones.stream()
                 .collect(Collectors.groupingBy(operacion -> operacion.getOperario().getId(),Collectors.counting()));
 
+        List<ItemHerramienta> itemsPrestamos = toolsListOper(operL7dPrestamos);
+        List<ItemHerramienta> itemsDevoluciones = toolsListOper(operL7dDevoluciones);
 
-        Map<String, Map<String, Long>> toolsOperL7dDevoluciones = mapaOper7d(operL7dDevoluciones);
-        Map<String, Map<String, Long>> toolsOperL7dPrestamos = mapaOper7d(operL7dPrestamos);
+        Map<Herramienta,Long> toolFreqPrestamos7d = itemsPrestamos.stream()
+                .collect(Collectors.groupingBy(
+                        ItemHerramienta::getHerramienta,
+                        Collectors.counting()
+                ));
 
-
-        mapaOper7d(operL7dPrestamos);
+        Map<Herramienta,Long> toolFreqDevoluciones7d = itemsDevoluciones.stream()
+                .collect(Collectors.groupingBy(
+                        ItemHerramienta::getHerramienta,
+                        Collectors.counting()
+                ));
 
         Map <String,Map <String, Long>> kitsOperL7dDevoluciones = operL7dDevoluciones.stream()
                 .collect(Collectors.toMap(
@@ -112,24 +118,6 @@ public class OperacionServicio {
                                 ))
                 ));
 
-        toolsOperL7dPrestamos.forEach((idOper,listaHerramientas) -> {
-            listaHerramientas.forEach((idTool,cantidad) -> {
-                ListadoHerramientasTopDto item = new ListadoHerramientasTopDto();
-                item.setTool(herramientaRepositorio.findById(idTool).get());
-                item.setCantidad(cantidad);
-                listaToolsPL7d.add(item);
-            });
-        });
-
-        toolsOperL7dDevoluciones.forEach((idOper,listaHerramientas) -> {
-            listaHerramientas.forEach((idTool,cantidad) -> {
-                ListadoHerramientasTopDto item = new ListadoHerramientasTopDto();
-                item.setTool(herramientaRepositorio.findById(idTool).get());
-                item.setCantidad(cantidad);
-                listaToolsDL7d.add(item);
-            });
-        });
-
         kitsOperL7dPrestamos.forEach((idOper,listaKits) -> {
             listaKits.forEach((idKit,cantidad) -> {
                 ListadoKitsTopDto item = new ListadoKitsTopDto();
@@ -150,8 +138,8 @@ public class OperacionServicio {
 
         resumen.setKitsOperL7dD((long) listaKitsDL7d.size());
         resumen.setKitsOperL7dP((long) listaKitsPL7d.size());
-        resumen.setToolsOperL7dD((long) listaToolsDL7d.size());
-        resumen.setToolsOperL7dP((long) listaToolsPL7d.size());
+        resumen.setToolsOperL7dD((long) toolFreqDevoluciones7d.size());
+        resumen.setToolsOperL7dP((long) toolFreqPrestamos7d.size());
         resumen.setOperL7dD((long)operL7dDevoluciones.size());
         resumen.setOperL7dP((long)operL7dPrestamos.size());
         resumen.setWorkersOperDL7d((long) workerOperL7dDevoluciones.size());
@@ -166,24 +154,28 @@ public class OperacionServicio {
         return resumen;
     }
 
-    private Map<String, Map<String, Long>> mapaOper7d(List<Operacion> operL7d) {
-        Map <String,Map <String, Long>> toolsOperL7d = operL7d.stream()
+    // metodo a revisar por implementacion itemHerramienta
+    private List<ItemHerramienta> toolsListOper(List<Operacion> operL7d) {
+        List<ItemHerramienta> toolsOper = new ArrayList<>();
+
+        Map <String,Object> toolsOperL7d = operL7d.stream()
                         .collect(Collectors.toMap(
                                 Operacion::getId,
-                                operacion -> operacion.getHerramienta().stream()
-                                        .collect(Collectors.groupingBy(
-                                                Herramienta::getId,
-                                                Collectors.counting()
-                                        )),
-                                (existing, replacement) -> {
-                                    replacement.forEach(
-                                            (key, value) -> existing.merge(key, value, Long::max)
-                                    );
-                                    return existing;
-                                }
+                                operacion -> new ArrayList<>(operacion.getHerramienta())
                         ));
 
-        return toolsOperL7d;
+        for (Map.Entry<String, Object> entry : toolsOperL7d.entrySet()) {
+
+            Object value = entry.getValue();
+
+            if (value instanceof ArrayList) {
+                ArrayList<ItemHerramienta> items = (ArrayList<ItemHerramienta>) value;
+
+                toolsOper.addAll(items);
+            }
+        }
+
+        return toolsOper;
     }
 
 }

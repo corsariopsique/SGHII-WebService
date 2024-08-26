@@ -1,5 +1,7 @@
 package com.ingeniarinoxidables.sghiiwebservice.DTOs;
 
+import com.ingeniarinoxidables.sghiiwebservice.modelo.ItemHerramienta;
+
 import java.util.List;
 
 public class HerramientaResumenPorIdDto {
@@ -14,6 +16,8 @@ public class HerramientaResumenPorIdDto {
     private Long totalKits; //
     private List<ListadoOperariosTopDto> listaUsoOperarios; //
     private List<ListadoKitsTopDto> listaUsoKits; //
+
+    private List<ItemHerramienta> itemsTool;
 
     public HerramientaResumenPorIdDto() {
     }
@@ -96,5 +100,13 @@ public class HerramientaResumenPorIdDto {
 
     public void setListaUsoKits(List<ListadoKitsTopDto> listaUsoKits) {
         this.listaUsoKits = listaUsoKits;
+    }
+
+    public List<ItemHerramienta> getItemsTool() {
+        return itemsTool;
+    }
+
+    public void setItemsTool(List<ItemHerramienta> itemsTool) {
+        this.itemsTool = itemsTool;
     }
 }

@@ -2,6 +2,7 @@ package com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets;
 
 import com.google.gson.Gson;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.ItemHerramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperacionRepositorio;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+// metodo a revisar por implementacion itemHerramienta
 
 @Service
 public class DataSetHerramientasFrecuencia {
@@ -38,33 +41,37 @@ public class DataSetHerramientasFrecuencia {
                 ));
 
 
-        Map <String,Map <String, Long>> freqToolsAux = opersHerramientas.stream()
+        Map <String,Object> freqToolsAux = opersHerramientas.stream()
                 .filter(operacion -> (operacion.getTipo()==1))
                 .collect(Collectors.toMap(
                         Operacion::getId,
                         operacion -> operacion.getHerramienta().stream()
                                 .collect(Collectors.groupingBy(
-                                        Herramienta::getNombre,
+                                        ItemHerramienta::getHerramienta,
                                         Collectors.counting()
-                                )),
-                        (existing, replacement) -> {
-                            replacement.forEach(
-                                    (key, value) -> existing.merge(key, value, Long::max)
-                            );
-                            return existing;
-                        }
+                                ))
+
                 ));
 
-        freqToolsAux.forEach((idOper,herramientas) -> {
-            herramientas.forEach((nombre,cantidad) -> {
-                if(freqTools.containsKey(nombre)){
-                    Long auxValue = freqTools.get(nombre);
-                    freqTools.replace(nombre,auxValue+cantidad);
-                }else{
-                    freqTools.put(nombre,cantidad);
+        for (Map.Entry<String, Object> entry : freqToolsAux.entrySet()) {
+
+            Object herramientasMap = entry.getValue();
+
+            if (herramientasMap instanceof Map) {
+                Map<Herramienta, Long> herramientasFreq = (Map<Herramienta, Long>) herramientasMap;
+
+                for (Map.Entry<Herramienta, Long> herramientaEntry : herramientasFreq.entrySet()) {
+                    Herramienta herramienta = herramientaEntry.getKey();
+                    Long frecuencia = herramientaEntry.getValue();
+                    if(freqTools.containsKey(herramienta.getNombre())){
+                        Long auxValue = freqTools.get(herramienta.getNombre());
+                        freqTools.replace(herramienta.getNombre(),auxValue+frecuencia);
+                    }else{
+                        freqTools.put(herramienta.getNombre(),frecuencia);
+                    }
                 }
-            });
-        });
+            }
+        }
 
         Set<String> toolsLabels = metodos.getAllKeys(freqTools,uniqueTools);
 

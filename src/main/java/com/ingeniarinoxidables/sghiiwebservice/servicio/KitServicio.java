@@ -6,8 +6,11 @@ import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoOperariosTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoOperariosTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.ItemHerramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
+import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
+import com.ingeniarinoxidables.sghiiwebservice.repositorio.ItemHerramientaRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.KitRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class KitServicio {
     @Autowired
     private OperarioRepositorio operarioRepositorio;
 
+    @Autowired
+    private ItemHerramientaServicio itemHerramientaServicio;
+
     public List<Kit> listarKits() {return repositorio.findAll();}
 
     public List<Kit> listarKitsPorEstado(Boolean estado){
@@ -45,7 +51,7 @@ public class KitServicio {
         if(kitDeBaja.isPresent()){
             kitDeBaja.get().setEstado(true);
             kitDeBaja.get().setFecha_out(LocalDate.now());
-            List<Herramienta> listaVacia = new ArrayList<>();
+            List<ItemHerramienta> listaVacia = new ArrayList<>();
             listaVacia.clear();
             kitDeBaja.get().setHerramientas(listaVacia);
             return repositorio.save(kitDeBaja.get());
@@ -53,6 +59,7 @@ public class KitServicio {
         return null;
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     public KitResumenDto resumen (){
         KitResumenDto resumen = new KitResumenDto();
         List<Kit> todos = repositorio.findAll();
@@ -77,6 +84,7 @@ public class KitServicio {
         return resumen;
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     public KitResumenPorIdDto resumenPorId(String id){
 
         Optional<Kit> kit = repositorio.findById(id);
@@ -121,6 +129,7 @@ public class KitServicio {
         return null;
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     public List<Operacion> listarOperacionesKits (String id){
         Optional<Kit> kitOperaciones = repositorio.findById(id);
         if(kitOperaciones.isPresent()){
@@ -131,25 +140,35 @@ public class KitServicio {
         return null;
     }
 
+
+    // metodo a revisar por implementacion itemHerramienta
     @Transactional
     public Kit addHerramienta(String idKit, Herramienta herramienta){
         Optional<Kit> kitOpcional = repositorio.findById(idKit);
         if(kitOpcional.isPresent()){
             Kit kit = kitOpcional.get();
-            List<Herramienta> herramientasActualizadas = kit.getHerramientas();
-            herramientasActualizadas.add(herramienta);
-            kit.setHerramientas(herramientasActualizadas);
-            return repositorio.save(kit);
+            List<ItemHerramienta> herramientasActualizadas = kit.getHerramientas();
+
+            List<ItemHerramienta> items = herramienta.getItems();
+            ItemHerramienta itemToKit = itemHerramientaServicio.itemParaAsignar(items);
+
+            if(itemToKit != null){
+                itemToKit.setEstado(1);
+                herramientasActualizadas.add(itemToKit);
+                kit.setHerramientas(herramientasActualizadas);
+                return repositorio.save(kit);
+            }
         }
         return null;
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     @Transactional
     public Kit deleteHerramientas (String idkit){
         Optional<Kit> kitVacio = repositorio.findById(idkit);
         if(kitVacio.isPresent()){
             Kit kitTemporal = kitVacio.get();
-            List<Herramienta> listaVacia = new ArrayList<>();
+            List<ItemHerramienta> listaVacia = new ArrayList<>();
             listaVacia.clear();
             kitTemporal.setHerramientas(listaVacia);
             return repositorio.save(kitTemporal);

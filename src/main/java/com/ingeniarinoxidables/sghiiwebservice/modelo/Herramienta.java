@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties({"proveedor","kits","operaciones"})
+@JsonIgnoreProperties({"proveedor","items"})
 public class Herramienta {
     @Id
     @Column(name= "idherramienta")
@@ -50,16 +50,13 @@ public class Herramienta {
     )
     private List<Proveedor> proveedor;
 
-    @ManyToMany(mappedBy = "herramientas",fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    private List<Kit> kits;
-
-    @ManyToMany (mappedBy = "herramienta", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    private List<Operacion> operaciones;
+    @OneToMany(mappedBy = "herramienta", cascade = CascadeType.ALL)
+    private List<ItemHerramienta> items;
 
     public Herramienta() {
     }
 
-    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, LocalDate fecha_out, int cantidad, int cantidad_disponible, int cantidad_kits, boolean estado, List<Proveedor> proveedor, List<Kit> kits, List<Operacion> operaciones) {
+    public Herramienta(String id, String nombre, String categoria, String rol, String marca, LocalDate fecha_in, LocalDate fecha_out, int cantidad, int cantidad_disponible, int cantidad_kits, boolean estado, List<Proveedor> proveedor, List<ItemHerramienta> items) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -72,8 +69,7 @@ public class Herramienta {
         this.cantidad_kits = cantidad_kits;
         this.estado = estado;
         this.proveedor = proveedor;
-        this.kits = kits;
-        this.operaciones = operaciones;
+        this.items = items;
     }
 
     public String getId() {
@@ -140,21 +136,6 @@ public class Herramienta {
         this.proveedor = proveedor;
     }
 
-    public List<Kit> getKits() {
-        return kits;
-    }
-    public void setKits(List<Kit> kits) {
-        this.kits = kits;
-    }
-
-    public List<Operacion> getOperaciones() {
-        return operaciones;
-    }
-
-    public void setOperaciones(List<Operacion> operaciones) {
-        this.operaciones = operaciones;
-    }
-
     public int getCantidad_disponible() {
         return cantidad_disponible;
     }
@@ -187,6 +168,14 @@ public class Herramienta {
         this.fecha_out = fecha_out;
     }
 
+    public List<ItemHerramienta> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemHerramienta> items) {
+        this.items = items;
+    }
+
     @Override
     public String toString() {
         return "Herramienta{" +
@@ -202,9 +191,7 @@ public class Herramienta {
                 ", cantidad_kits=" + cantidad_kits +
                 ", estado=" + estado +
                 ", proveedor=" + proveedor +
-                ", kits=" + kits +
-                ", operaciones=" + operaciones +
+                ", items=" + items +
                 '}';
     }
-
 }

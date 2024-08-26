@@ -13,13 +13,14 @@ public class Kit {
     @Column(name = "idkit")
     private String id;
 
+    // metodo a revisar por implementacion itemHerramienta
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name ="tool_Kit",
             joinColumns = @JoinColumn(name="id_kit"),
             inverseJoinColumns = @JoinColumn(name="id_tool")
     )
-    private List<Herramienta> herramientas;
+    private List<ItemHerramienta> herramientas;
 
     @ManyToMany(mappedBy = "kit", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Operacion> operaciones;
@@ -42,7 +43,7 @@ public class Kit {
     @Column
     private Boolean estado;
 
-    public Kit(String id, List<Herramienta> herramientas, List<Operacion> operaciones, String rol, String nombre, int disponible, LocalDate fecha_in, LocalDate fecha_out, Boolean estado) {
+    public Kit(String id, List<ItemHerramienta> herramientas, List<Operacion> operaciones, String rol, String nombre, int disponible, LocalDate fecha_in, LocalDate fecha_out, Boolean estado) {
         this.id = id;
         this.herramientas = herramientas;
         this.operaciones = operaciones;
@@ -89,14 +90,6 @@ public class Kit {
         this.fecha_in = fecha_in;
     }
 
-    public List<Herramienta> getHerramientas() {
-        return herramientas;
-    }
-
-    public void setHerramientas(List<Herramienta> herramientas) {
-        this.herramientas = herramientas;
-    }
-
     public List<Operacion> getOperaciones() {
         return operaciones;
     }
@@ -127,6 +120,14 @@ public class Kit {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    public List<ItemHerramienta> getHerramientas() {
+        return herramientas;
+    }
+
+    public void setHerramientas(List<ItemHerramienta> herramientas) {
+        this.herramientas = herramientas;
     }
 
     @Override

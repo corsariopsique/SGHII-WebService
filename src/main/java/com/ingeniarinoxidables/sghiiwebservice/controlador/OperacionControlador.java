@@ -3,10 +3,7 @@ package com.ingeniarinoxidables.sghiiwebservice.controlador;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.AgregarOperacion;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperacionesResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.PaqueteHerramientasKit;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
-import com.ingeniarinoxidables.sghiiwebservice.modelo.Operario;
+import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.*;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets.DataSetHerramientasFrecuencia;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets.DataSetsOperacionesTipo7d;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/operaciones")
@@ -25,6 +23,9 @@ public class OperacionControlador {
     private OperacionServicio service;
     @Autowired
     private HerramientaServicio serviceTool;
+
+    @Autowired
+    private ItemHerramientaServicio itemHerramientaServicio;
 
     @Autowired
     private OperarioServicio serviceWorker;
@@ -72,6 +73,7 @@ public class OperacionControlador {
                 .body(data);
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     @PostMapping
     public ResponseEntity<Operacion> agregar(@RequestBody AgregarOperacion operacion) {
         Operario operarioExistente = serviceWorker.obtenerOperarioPorId(operacion.getOperario());
@@ -83,7 +85,7 @@ public class OperacionControlador {
             nuevaOperacion.setTipo(operacion.getTipo());
             if(operacion.getTipo_articulo()==1){
                 List<PaqueteHerramientasKit> newToolsOper = operacion.getHerramienta();
-                nuevaOperacion.setHerramienta(iteradorHerramientas(newToolsOper));
+                nuevaOperacion.setHerramienta(iteradorHerramientas(newToolsOper,operacion.getTipo()));
             }
             if(operacion.getTipo_articulo()==2){
                 List<Kit> kits_Oper = new ArrayList<>();
@@ -99,16 +101,36 @@ public class OperacionControlador {
         }
     }
 
-    private List<Herramienta> iteradorHerramientas(List<PaqueteHerramientasKit> herramientasOperacion) {
-        List<Herramienta> listado_Tools = new ArrayList<>();
-        for(PaqueteHerramientasKit herramienta : herramientasOperacion){
-            String id = herramienta.getId();
-            int cantidad = herramienta.getCantidad();
-            for(int i = 0; i<cantidad;i++){
-                Herramienta toolOperacion = serviceTool.obtenerHerramientaPorId(id).get();
-                listado_Tools.add(toolOperacion);
+    // metodo a revisar por implementacion itemHerramienta
+    private List<ItemHerramienta> iteradorHerramientas(List<PaqueteHerramientasKit> herramientasOperacion, int tipo) {
+        List<ItemHerramienta> listado_Tools = new ArrayList<>();
+
+        if(tipo == 1){
+            for(PaqueteHerramientasKit herramienta : herramientasOperacion){
+                String id = herramienta.getId();
+                int cantidad = herramienta.getCantidad();
+                for(int i = 0; i<cantidad;i++){
+                    Herramienta toolOperacion = serviceTool.obtenerHerramientaPorId(id).get();
+                    List<ItemHerramienta> listadoItems = toolOperacion.getItems();
+                    ItemHerramienta itemTool = itemHerramientaServicio.itemParaAsignar(listadoItems);
+                    itemTool.setEstado(1);
+                    itemHerramientaServicio.guardarItem(itemTool);
+                    listado_Tools.add(itemTool);
+                }
+            }
+        } else if (tipo==2) {
+            for(PaqueteHerramientasKit herramienta : herramientasOperacion){
+                String id = herramienta.getId();
+                int item = herramienta.getCantidad(); // viene la identidad del item
+                Optional<ItemHerramienta> itemTool = itemHerramientaServicio.obtenerItemHerramienta(item);
+                if(itemTool.isPresent()){
+                    itemTool.get().setEstado(0);
+                    itemHerramientaServicio.guardarItem(itemTool.get());
+                    listado_Tools.add(itemTool.get());
+                }
             }
         }
+
         return listado_Tools;
     }
 

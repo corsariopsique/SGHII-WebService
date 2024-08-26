@@ -18,13 +18,14 @@ public class Operacion {
     private Operario operario;
 
 
+    // metodo a revisar por implementacion itemHerramienta
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name ="asg_dev_tool",
             joinColumns = @JoinColumn(name="id_operacion_tool",nullable = true),
             inverseJoinColumns = @JoinColumn(name="id_tool")
     )
-    private List<Herramienta> herramienta;
+    private List<ItemHerramienta> herramienta;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -45,7 +46,7 @@ public class Operacion {
     public Operacion() {
     }
 
-    public Operacion(String id, Operario operario, List<Herramienta> herramienta, List<Kit> kit, int tipo, LocalDate fecha_operacion) {
+    public Operacion(String id, Operario operario, List<ItemHerramienta> herramienta, List<Kit> kit, int tipo, LocalDate fecha_operacion) {
         this.id = id;
         this.operario = operario;
         this.herramienta = herramienta;
@@ -76,14 +77,6 @@ public class Operacion {
         this.operario = operario;
     }
 
-    public List<Herramienta> getHerramienta() {
-        return herramienta;
-    }
-
-    public void setHerramienta(List<Herramienta> herramienta) {
-        this.herramienta = herramienta;
-    }
-
     public List<Kit> getKit() {
         return kit;
     }
@@ -106,6 +99,14 @@ public class Operacion {
 
     public void setFecha_operacion(LocalDate fecha_operacion) {
         this.fecha_operacion = fecha_operacion;
+    }
+
+    public List<ItemHerramienta> getHerramienta() {
+        return herramienta;
+    }
+
+    public void setHerramienta(List<ItemHerramienta> herramienta) {
+        this.herramienta = herramienta;
     }
 
     @Override

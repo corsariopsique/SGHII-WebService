@@ -7,12 +7,8 @@ import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoOperariosTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorHerramientas;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoOperariosTopDto;
-import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.KitRepositorio;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.ProveedorRepositorio;
+import com.ingeniarinoxidables.sghiiwebservice.repositorio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +24,7 @@ public class HerramientaServicio {
     private HerramientaRepositorio repositorio;
 
     @Autowired
-    private ProveedorRepositorio proveedorRepositorio;
+    private OperacionRepositorio operacionRepositorio;
 
     @Autowired
     private OperarioRepositorio operarioRepositorio;
@@ -53,6 +49,7 @@ public class HerramientaServicio {
         return repositorio.save(herramienta);
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     public Herramienta eliminarHerramienta(String id) {
         Optional<Herramienta> toolDeBaja = repositorio.findById(id);
         if (toolDeBaja.isPresent()){
@@ -63,12 +60,16 @@ public class HerramientaServicio {
         return null;
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     public HerramientaResumenDto resumen (){
         HerramientaResumenDto resumen = new HerramientaResumenDto();
+
         List<Herramienta> ingresosL30d = repositorio.listaHeramientaInRangoDate(LocalDate.now()
                 .minusMonths(1),LocalDate.now());
-        List<Herramienta> herramientasEscasas = repositorio.listarHerramientaEscasa();
         ingresosL30d.sort(new ComparadorHerramientas().reversed());
+
+        List<Herramienta> herramientasEscasas = repositorio.listarHerramientaEscasa();
+
         resumen.setHerramientasReg(repositorio.herramientasTodas());
         resumen.setTotalPiezas(repositorio.piezasTotales());
         resumen.setHerramientasActivas(repositorio.herramientasActivas());
@@ -94,40 +95,31 @@ public class HerramientaServicio {
         List<ListadoKitsTopDto> listaKitsTool = new ArrayList<>();
 
         if(tool.isPresent()){
+
             List<Operacion> toolOperaciones = listarOperacionesTool(id);
 
-            Map <String, Map<String,Long>> kitsTool = tool.get().getKits().stream()
+            List<Kit> allKits = kitRepositorio.findAll();
+
+            Map<Kit,Long> toolKits = allKits.stream()
+                    .filter(kit -> kit.getHerramientas().stream()
+                            .anyMatch(itemHerramienta -> tool.get().getItems().contains(itemHerramienta)))
                     .collect(Collectors.toMap(
-                            Kit::getId,
+                            kit -> kit,
                             kit -> kit.getHerramientas().stream()
-                                    .collect(Collectors.groupingBy(
-                                            Herramienta::getId,
-                                            Collectors.counting()
-                                    )),
-                            (existing, replacement) -> {
-                                replacement.forEach(
-                                        (key, value) -> existing.merge(key, value, Long::max)
-                                );
-                                return existing;
-                            }
+                                    .filter(itemHerramienta -> tool.get().getItems().contains(itemHerramienta))
+                                    .count(),
+                            Long::sum
                     ));
 
-            Map<String, Map <String, Map<String,Long>>> workerstop = operarioRepositorio.findAll().stream()
+            Map<Operario,Long> toolWorkers = toolOperaciones.stream()
+                    .filter(operacion -> (operacion.getTipo()==1))
                     .collect(Collectors.toMap(
-                            Operario::getId,
-                            operario -> operario.getOperaciones().stream()
-                                    .filter(operacion -> operacion.getTipo()==1)
-                                    .collect(Collectors.toMap(
-                                            Operacion::getId,
-                                            operacion -> operacion.getHerramienta().stream()
-                                                    .collect(Collectors.groupingBy(
-                                                            Herramienta::getId,
-                                                            Collectors.counting()
-                                                    ))
-                                    ))
-
+                            Operacion::getOperario,
+                            operacion -> operacion.getHerramienta().stream()
+                                    .filter(itemHerramienta -> tool.get().getItems().contains(itemHerramienta))
+                                    .count(),
+                            Long::sum
                     ));
-
 
             List<Operacion> operL30d = toolOperaciones.stream()
                     .filter(operacion -> !operacion.getFecha_operacion().isBefore(LocalDate.now().minusMonths(1))
@@ -143,63 +135,44 @@ public class HerramientaServicio {
                     .filter(operacion -> (operacion.getTipo()==2))
                     .toList();
 
-            Map<String,Long> piezasPrestamos = prestamos.stream()
-                    .flatMap(operacion -> operacion.getHerramienta().stream())
-                    .collect(Collectors.groupingBy(Herramienta::getId,Collectors.counting()));
+            Long piezasPrestamos = prestamos.stream()
+                   .flatMap(operacion -> operacion.getHerramienta().stream())
+                   .filter(itemHerramienta -> tool.get().getItems().contains(itemHerramienta))
+                   .count();
 
+            Long piezasDevoluciones = devoluciones.stream()
+                   .flatMap(operacion -> operacion.getHerramienta().stream())
+                   .filter(itemHerramienta -> tool.get().getItems().contains(itemHerramienta))
+                   .count();
 
-            Map<String,Long> piezasDevoluciones = devoluciones.stream()
-                    .flatMap(operacion -> operacion.getHerramienta().stream())
-                    .collect(Collectors.groupingBy(Herramienta::getId,Collectors.counting()));
-
-
-            workerstop.forEach((idWorker,listaOperaciones) -> {
-                ListadoOperariosTopDto operarioTool = new ListadoOperariosTopDto();
-                listaOperaciones.forEach((idOperacion,listaTools) -> {
-                    listaTools.forEach((idTool,cantidad) -> {
-                        operarioTool.setOperario(operarioRepositorio.findById(idWorker).get());
-                        if (idTool == id){
-                            if(operarioTool.getCantidad()!= null){
-                                operarioTool.setCantidad(operarioTool.getCantidad()+cantidad);
-                            }else{
-                                operarioTool.setCantidad(cantidad);
-                            }
-
-                        }
-                    });
-                });
-
-                if (operarioTool.getCantidad()!=null){
-                    listaOperariosTool.add(operarioTool);
-                }
+            toolKits.forEach((kit,cantidad) -> {
+                ListadoKitsTopDto kitTop = new ListadoKitsTopDto();
+                kitTop.setKit(kit);
+                kitTop.setCantidad(cantidad);
+                listaKitsTool.add(kitTop);
             });
 
-            listaOperariosTool.sort(new ComparadorListadoOperariosTopDto().reversed());
-
-            kitsTool.forEach((idKit,listaTools) -> {
-                ListadoKitsTopDto kitTool = new ListadoKitsTopDto();
-                listaTools.forEach((idTool,cantidad) -> {
-                    kitTool.setKit(kitRepositorio.findById(idKit).get());
-                    if (idTool == id){
-                        kitTool.setCantidad(cantidad);
-                    }
-                });
-
-                listaKitsTool.add(kitTool);
+            toolWorkers.forEach((worker,cantidad) -> {
+                ListadoOperariosTopDto workerTop = new ListadoOperariosTopDto();
+                workerTop.setOperario(worker);
+                workerTop.setCantidad(cantidad);
+                listaOperariosTool.add(workerTop);
             });
 
             listaKitsTool.sort(new ComparadorListadoKitsTopDto().reversed());
+            listaOperariosTool.sort(new ComparadorListadoOperariosTopDto().reversed());
 
             resumen.setTotalOper((long) toolOperaciones.size());
             resumen.setOperPrestamos((long) prestamos.size());
             resumen.setOperDevoluciones((long) devoluciones.size());
-            resumen.setPiezasPrestadas(piezasPrestamos.get(id));
-            resumen.setPiezasDevueltas(piezasDevoluciones.get(id));
+            resumen.setPiezasPrestadas(piezasPrestamos);
+            resumen.setPiezasDevueltas(piezasDevoluciones);
             resumen.setOperL30d((long) operL30d.size());
-            resumen.setTotalOperarios((long) listaOperariosTool.size());
-            resumen.setTotalKits((long) listaKitsTool.size());
+            resumen.setTotalOperarios((long) toolWorkers.size());
+            resumen.setTotalKits((long) toolKits.size());
             resumen.setListaUsoOperarios(listaOperariosTool);
             resumen.setListaUsoKits(listaKitsTool);
+            resumen.setItemsTool(tool.get().getItems());
 
             return resumen;
         }
@@ -210,16 +183,12 @@ public class HerramientaServicio {
     public List<Operacion> listarOperacionesTool (String id){
         Optional<Herramienta> toolOper = repositorio.findById(id);
         if (toolOper.isPresent()){
-            List<Operacion> operacions = toolOper.get().getOperaciones();
-            List<Operacion> operacionesSinRepetir = new ArrayList<>();
-            HashSet<Operacion> sinDobles = new HashSet<>();
-            for(Operacion oper : operacions){
-                if(sinDobles.add(oper)){
-                    operacionesSinRepetir.add(oper);
-                }
-            }
-            operacionesSinRepetir.sort(new ComparadorOperaciones().reversed());
-            return operacionesSinRepetir;
+            List<Operacion> operacions = operacionRepositorio.findAll();
+            List<Operacion> opersTool = operacions.stream()
+                    .filter(operacion -> (operacion.getHerramienta().stream().anyMatch(itemHerramienta ->
+                            toolOper.get().getItems().contains(itemHerramienta)))).toList();
+
+            return opersTool;
         }
         return null;
     }

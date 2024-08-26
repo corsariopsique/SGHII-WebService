@@ -58,6 +58,7 @@ public class KitControlador {
         return ResponseEntity.ok(resumen);
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     @PostMapping
     public ResponseEntity<Kit> agregar(@RequestBody Kit kit) {
         Kit nuevoKit = service.guardarKit(kit);
@@ -74,6 +75,7 @@ public class KitControlador {
         }
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     @PostMapping ("/{idkit}/herramientas")
     public ResponseEntity<Kit> addHerramienta(@PathVariable String idkit, @RequestBody List<PaqueteHerramientasKit> herramientasKit){
         Kit kitSinTools = service.obtenerKitPorId(idkit);
@@ -85,6 +87,7 @@ public class KitControlador {
         }
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     private void iteradorHerramientas(@PathVariable String idkit, @RequestBody List<PaqueteHerramientasKit> herramientasKit) {
         for(PaqueteHerramientasKit herramienta : herramientasKit){
             String id = herramienta.getId();
@@ -96,6 +99,7 @@ public class KitControlador {
         }
     }
 
+    // metodo a revisar por implementacion itemHerramienta
     @PutMapping ("/{idkit}")
     public ResponseEntity<Kit> editarKit(@PathVariable String idkit, @RequestBody KitEditar kitModificado){
         Kit kitExistente = service.obtenerKitPorId(idkit);

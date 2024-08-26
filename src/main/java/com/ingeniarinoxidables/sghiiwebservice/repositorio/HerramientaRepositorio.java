@@ -14,15 +14,19 @@ public interface HerramientaRepositorio extends JpaRepository<Herramienta,String
     @Query("SELECT t FROM Herramienta t WHERE t.fecha_in BETWEEN :startDate AND :endDate")
     List<Herramienta> listaHeramientaInRangoDate (@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-    @Query("SELECT t FROM Herramienta t WHERE t.cantidad_disponible <= 0.25*(t.cantidad)")
+    @Query("SELECT t FROM Herramienta t WHERE t.cantidad_disponible <= 2")
     List<Herramienta> listarHerramientaEscasa();
 
+
+    // metodo a revisar por implementacion itemHerramienta
     @Query("SELECT SUM(t.cantidad) FROM Herramienta t WHERE t.estado=false ")
     Long piezasTotalesActivas();
 
+    // metodo a revisar por implementacion itemHerramienta
     @Query("SELECT SUM(t.cantidad) FROM Herramienta t ")
     Long piezasTotales();
 
+    // metodo a revisar por implementacion itemHerramienta
     @Query("SELECT SUM(t.cantidad_kits) FROM Herramienta t WHERE t.estado=false ")
     Long piezasKits();
 
