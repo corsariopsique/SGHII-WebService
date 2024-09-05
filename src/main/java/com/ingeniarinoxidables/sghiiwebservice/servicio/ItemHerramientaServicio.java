@@ -105,7 +105,8 @@ public class ItemHerramientaServicio {
                     .collect(Collectors.toMap(
                             Operacion::getOperario,
                             operacion -> operacion.getHerramienta().stream()
-                                    .filter(itemHerramienta -> itemHerramienta==item.get()).count()
+                                    .filter(itemHerramienta -> itemHerramienta==item.get()).count(),
+                            Long::sum
 
                     ));
 

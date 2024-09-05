@@ -5,7 +5,6 @@ import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoHerra
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.KitRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ public class OperarioServicio {
 
     @Autowired
     private OperarioRepositorio repositorio;
-
-    @Autowired
-    private HerramientaRepositorio repositorioTools;
 
     @Autowired
     private KitRepositorio repositorioKits;
@@ -132,27 +128,17 @@ public class OperarioServicio {
         return null;
     }
 
-    // metodo a revisar por implementacion itemHerramienta
     private HashMap<Integer, Long> frecuenciaListaTools (List<Operacion> listado){
         HashMap<Integer,Long> listadoItemsFreq = new HashMap<>();
 
-        Map<String,Object> itemsPrestamosFreq = listado.stream()
-                .collect(Collectors.toMap(
-                        Operacion::getId,
-                        operacion -> operacion.getHerramienta().stream()
-                                .collect(Collectors.groupingBy(
-                                        ItemHerramienta::getId,
-                                        Collectors.counting()
-                                ))
+        Map<Integer, Long> listaItemsFreq = listado.stream()
+                .flatMap(operacion -> operacion.getHerramienta().stream())
+                .collect(Collectors.groupingBy(
+                        ItemHerramienta::getId,
+                        Collectors.counting()
                 ));
 
-        itemsPrestamosFreq.forEach((operacionId, herramientasMap) -> {
-            if (herramientasMap instanceof Map) {
-                Map<Integer, Long> herramientasFreq = (Map<Integer, Long>) herramientasMap;
-
-                listadoItemsFreq.putAll(herramientasFreq);
-            }
-        });
+        listadoItemsFreq.putAll(listaItemsFreq);
 
         return listadoItemsFreq ;
     }

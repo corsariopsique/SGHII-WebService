@@ -1,4 +1,4 @@
-package com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets;
+package com.ingeniarinoxidables.sghiiwebservice.DataSets;
 
 import java.awt.Color;
 import java.util.ArrayList;

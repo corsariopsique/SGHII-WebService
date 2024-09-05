@@ -7,6 +7,7 @@ import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoOperariosTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorHerramientas;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorListadoOperariosTopDto;
+import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,9 +185,11 @@ public class HerramientaServicio {
         Optional<Herramienta> toolOper = repositorio.findById(id);
         if (toolOper.isPresent()){
             List<Operacion> operacions = operacionRepositorio.findAll();
-            List<Operacion> opersTool = operacions.stream()
+            List<Operacion> opersTool = new ArrayList<>(operacions.stream()
                     .filter(operacion -> (operacion.getHerramienta().stream().anyMatch(itemHerramienta ->
-                            toolOper.get().getItems().contains(itemHerramienta)))).toList();
+                            toolOper.get().getItems().contains(itemHerramienta)))).toList());
+
+            opersTool.sort(new ComparadorOperaciones().reversed());
 
             return opersTool;
         }

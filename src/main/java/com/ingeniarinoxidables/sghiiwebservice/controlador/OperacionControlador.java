@@ -5,8 +5,6 @@ import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperacionesResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.PaqueteHerramientasKit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
 import com.ingeniarinoxidables.sghiiwebservice.servicio.*;
-import com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets.DataSetHerramientasFrecuencia;
-import com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets.DataSetsOperacionesTipo7d;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +31,6 @@ public class OperacionControlador {
     @Autowired
     private KitServicio serviceKit;
 
-    @Autowired
-    private DataSetsOperacionesTipo7d servicioDataSet;
-
-    @Autowired
-    private DataSetHerramientasFrecuencia servicioDataSetFreqTools;
-
     @GetMapping
     public ResponseEntity<List<Operacion>> listar() {
         List<Operacion> operaciones = service.listarOperaciones();
@@ -57,23 +49,6 @@ public class OperacionControlador {
         return ResponseEntity.ok(resumen);
     }
 
-    @GetMapping("/data/oper7d")
-    public ResponseEntity<String> dataPrestamos(){
-        String data = servicioDataSet.jsonData();
-        return ResponseEntity.ok()
-                .header("Content-Type", "application/json; charset=UTF-8")
-                .body(data);
-    }
-
-    @GetMapping("/data/freqtools")
-    public ResponseEntity<String> dataFreqTools(){
-        String data = servicioDataSetFreqTools.getJson();
-        return ResponseEntity.ok()
-                .header("Content-Type", "application/json; charset=UTF-8")
-                .body(data);
-    }
-
-    // metodo a revisar por implementacion itemHerramienta
     @PostMapping
     public ResponseEntity<Operacion> agregar(@RequestBody AgregarOperacion operacion) {
         Operario operarioExistente = serviceWorker.obtenerOperarioPorId(operacion.getOperario());
@@ -101,7 +76,6 @@ public class OperacionControlador {
         }
     }
 
-    // metodo a revisar por implementacion itemHerramienta
     private List<ItemHerramienta> iteradorHerramientas(List<PaqueteHerramientasKit> herramientasOperacion, int tipo) {
         List<ItemHerramienta> listado_Tools = new ArrayList<>();
 
@@ -121,7 +95,7 @@ public class OperacionControlador {
         } else if (tipo==2) {
             for(PaqueteHerramientasKit herramienta : herramientasOperacion){
                 String id = herramienta.getId();
-                int item = herramienta.getCantidad(); // viene la identidad del item
+                int item = herramienta.getCantidad(); // trae la identidad del item
                 Optional<ItemHerramienta> itemTool = itemHerramientaServicio.obtenerItemHerramienta(item);
                 if(itemTool.isPresent()){
                     itemTool.get().setEstado(0);

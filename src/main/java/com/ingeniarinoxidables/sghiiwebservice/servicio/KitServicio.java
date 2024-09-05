@@ -9,8 +9,6 @@ import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.ItemHerramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Kit;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.ItemHerramientaRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.KitRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;

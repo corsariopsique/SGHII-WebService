@@ -1,11 +1,9 @@
 package com.ingeniarinoxidables.sghiiwebservice.servicio;
 
-import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoHerramientasTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoKitsTopDto;
 import com.ingeniarinoxidables.sghiiwebservice.DTOs.OperacionesResumenDto;
 import com.ingeniarinoxidables.sghiiwebservice.auxiliares.ComparadorOperaciones;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.*;
-import com.ingeniarinoxidables.sghiiwebservice.repositorio.HerramientaRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.KitRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperacionRepositorio;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperarioRepositorio;
@@ -24,8 +22,6 @@ public class OperacionServicio {
     private OperacionRepositorio repositorio;
     @Autowired
     private OperarioRepositorio operarioRepositorio;
-    @Autowired
-    private HerramientaRepositorio herramientaRepositorio;
     @Autowired
     private KitRepositorio kitRepositorio;
 
@@ -46,10 +42,9 @@ public class OperacionServicio {
 
     // metodo a revisar por implementacion itemHerramienta
     public OperacionesResumenDto resumen(){
+
         OperacionesResumenDto resumen = new OperacionesResumenDto();
 
-        List<ListadoHerramientasTopDto> listaToolsDL7d = new ArrayList<>();
-        List<ListadoHerramientasTopDto> listaToolsPL7d = new ArrayList<>();
         List<ListadoKitsTopDto> listaKitsPL7d = new ArrayList<>();
         List<ListadoKitsTopDto> listaKitsDL7d = new ArrayList<>();
         List<Operacion> todas  = repositorio.findAll();
@@ -154,26 +149,12 @@ public class OperacionServicio {
         return resumen;
     }
 
-    // metodo a revisar por implementacion itemHerramienta
     private List<ItemHerramienta> toolsListOper(List<Operacion> operL7d) {
         List<ItemHerramienta> toolsOper = new ArrayList<>();
 
-        Map <String,Object> toolsOperL7d = operL7d.stream()
-                        .collect(Collectors.toMap(
-                                Operacion::getId,
-                                operacion -> new ArrayList<>(operacion.getHerramienta())
-                        ));
-
-        for (Map.Entry<String, Object> entry : toolsOperL7d.entrySet()) {
-
-            Object value = entry.getValue();
-
-            if (value instanceof ArrayList) {
-                ArrayList<ItemHerramienta> items = (ArrayList<ItemHerramienta>) value;
-
-                toolsOper.addAll(items);
-            }
-        }
+        toolsOper = operL7d.stream()
+                .flatMap(operacion -> operacion.getHerramienta().stream())
+                .toList();
 
         return toolsOper;
     }

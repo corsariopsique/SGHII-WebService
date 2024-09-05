@@ -1,21 +1,21 @@
-package com.ingeniarinoxidables.sghiiwebservice.servicio.DataSets;
+package com.ingeniarinoxidables.sghiiwebservice.DataSets;
 
 import com.google.gson.Gson;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import com.ingeniarinoxidables.sghiiwebservice.repositorio.OperacionRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class DataSetsOperacionesTipo7d {
 
     @Autowired
     private OperacionRepositorio operacionRepositorio;
-    private MetodosDataSets metodos = new MetodosDataSets();
+    private final MetodosDataSets metodos = new MetodosDataSets();
 
     public String jsonData(){
 
