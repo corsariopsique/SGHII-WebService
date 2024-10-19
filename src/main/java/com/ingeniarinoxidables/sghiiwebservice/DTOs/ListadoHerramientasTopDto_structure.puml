@@ -1,0 +1,281 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.ingeniarinoxidables.sghiiwebservice.DTOs.ListadoHerramientasTopDto",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1197233471 { 
+   	label=ingeniarinoxidables
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_593371288 { 
+   	label=sghiiwebservice
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Herramienta1825860153[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Herramienta</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cantidad: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   cantidad_disponible: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   cantidad_kits: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   categoria: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   estado: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_in: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_out: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   items: List&lt;ItemHerramienta&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   marca: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nombre: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   proveedor: List&lt;Proveedor&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   rol: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ItemHerramienta1825860153[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ItemHerramienta</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   estado: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_in: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_out: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramienta: Herramienta [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   kits: List&lt;Kit&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operaciones: List&lt;Operacion&gt; [0..*]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Kit1825860153[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Kit</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   disponible: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   estado: Boolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_in: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_out: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientas: List&lt;ItemHerramienta&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nombre: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operaciones: List&lt;Operacion&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   rol: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ListadoHerramientasTopDto1350371111[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ListadoHerramientasTopDto</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cantidad: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tool: Herramienta [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Operacion1825860153[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Operacion</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   fecha_operacion: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramienta: List&lt;ItemHerramienta&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   kit: List&lt;Kit&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operario: Operario [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tipo: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Operario1825860153[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Operario</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   email: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   estado: Boolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_in: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_out: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nombre: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operaciones: List&lt;Operacion&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   rol: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   telefono: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+OperarioResumenPorIdDto1350371111[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)OperarioResumenPorIdDto</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   devoluciones: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   listaUsoKits: List&lt;ListadoKitsTopDto&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   listaUsoTools: List&lt;ListadoHerramientasTopDto&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operL30d: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   prestamos: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   totalKits: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   totalOper: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   totalTools: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Proveedor1825860153[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Proveedor</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   ciudad: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   estado: Boolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_in: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fecha_out: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientas: List&lt;Herramienta&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nombre: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   telefono: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+Herramienta1825860153 -> ItemHerramienta1825860153[label="items
+[0..*]"];
+Herramienta1825860153 -> Proveedor1825860153[label="proveedor
+[0..*]"];
+ItemHerramienta1825860153 -> Herramienta1825860153[label="herramienta
+[0..1]"];
+ItemHerramienta1825860153 -> Kit1825860153[label="kits
+[0..*]"];
+ItemHerramienta1825860153 -> Operacion1825860153[label="operaciones
+[0..*]"];
+Kit1825860153 -> ItemHerramienta1825860153[label="herramientas
+[0..*]"];
+Kit1825860153 -> Operacion1825860153[label="operaciones
+[0..*]"];
+ListadoHerramientasTopDto1350371111 -> Herramienta1825860153[label="tool
+[0..1]"];
+Operacion1825860153 -> ItemHerramienta1825860153[label="herramienta
+[0..*]"];
+Operacion1825860153 -> Kit1825860153[label="kit
+[0..*]"];
+Operacion1825860153 -> Operario1825860153[label="operario
+[0..1]"];
+Operario1825860153 -> Operacion1825860153[label="operaciones
+[0..*]"];
+OperarioResumenPorIdDto1350371111 -> ListadoHerramientasTopDto1350371111[label="listaUsoTools
+[0..*]"];
+Proveedor1825860153 -> Herramienta1825860153[label="herramientas
+[0..*]"];
+    
+}
+@enduml

@@ -1,0 +1,171 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.ingeniarinoxidables.sghiiwebservice.controlador.ProveedorControlador",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1197233471 { 
+   	label=ingeniarinoxidables
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_593371288 { 
+   	label=sghiiwebservice
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   HerramientaServicio8218601[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HerramientaServicio</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   kitRepositorio: KitRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operacionRepositorio: OperacionRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operarioRepositorio: OperarioRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   repositorio: HerramientaRepositorio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addProveedor(idHerramienta: String, proveedor: Proveedor): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dropSuplier(idHerramienta: String, Suplier: Proveedor): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminarHerramienta(id: String): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ guardarHerramienta(herramienta: Herramienta): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarHerramientas(): List&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarHerramientasPorEstado(estado: Boolean): List&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperacionesTool(id: String): List&lt;Operacion&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarProveedores(id: String): List&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerHerramientaPorId(id: String): Optional&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumen(): HerramientaResumenDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumenPorId(id: String): HerramientaResumenPorIdDto</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ProveedorControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ProveedorControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   herramientaServicio: HerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   service: ProveedorServicio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actualizar(id: String, proveedor: ProveedorDto): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ agregar(proveedor: ProveedorDto): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminar(id: String): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listar(): ResponseEntity&lt;List&lt;Proveedor&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerPorId(id: String): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ProveedorServicio8218601[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ProveedorServicio</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   repositorio: ProveedorRepositorio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ eliminarProveedor(id: String): Proveedor</TD></TR>
+<TR><TD ALIGN="LEFT" >+ guardarProveedor(proveedor: Proveedor): Proveedor</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarProveedores(): List&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarProveedoresPorEstado(estado: Boolean): List&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerProveedorPorId(id: String): Optional&lt;Proveedor&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+ProveedorControlador236320816 -> HerramientaServicio8218601[label="herramientaServicio
+[1]"];
+ProveedorControlador236320816 -> ProveedorServicio8218601[label="service
+[1]"];
+    
+}
+@enduml

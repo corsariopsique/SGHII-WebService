@@ -1,0 +1,173 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.ingeniarinoxidables.sghiiwebservice.DataSets.ColorGenerator",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1197233471 { 
+   	label=ingeniarinoxidables
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_593371288 { 
+   	label=sghiiwebservice
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   ColorGenerator482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ColorGenerator</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ generateRGBAColors(numColors: int): List&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DataSetHerramientasFrecuencia482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataSetHerramientasFrecuencia</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   colores: ColorGenerator [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientaRepositorio: HerramientaRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metodos: MetodosDataSets [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createDataset(label: String, data: List&lt;Long&gt;, borderColor: List&lt;String&gt;, backgroundColor: List&lt;String&gt;): Map&lt;String, Object&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DataSetsControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataSetsControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   dataSetPrestamosOperario: DataSetPrestamosOperario [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   freqtools: DataSetHerramientasFrecuencia [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientasPorRolDataSet: HerramientasPorRolDataSet [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   indicadorAcumulativoDesgaste: IndicadorAcumulativoDesgaste [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   oper7d: DataSetsOperacionesTipo7d [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   piezasDisponiblesByTool: PiezasDisponiblesByTool [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarItem: DataSetRadarItem [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarKit: DataSetRadarKit [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarTool: DataSetRadarHerramienta [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ bajasByTool(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dataFreqTools(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dataPrestamos(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ disponiblesByTool(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesAllTools(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesKit(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesTool(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ operariosByRol(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosByKit(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosKitWorker(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosToolWorker(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosTotalesOperario(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarItem(id: int): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarKit(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarTool(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toolsByCat(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toolsByRole(): ResponseEntity&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+DataSetHerramientasFrecuencia482675278 -> ColorGenerator482675278[label="colores
+[0..1]"];
+DataSetsControlador236320816 -> DataSetHerramientasFrecuencia482675278[label="freqtools
+[1]"];
+    
+}
+@enduml

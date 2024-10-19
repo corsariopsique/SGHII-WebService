@@ -1,0 +1,299 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.ingeniarinoxidables.sghiiwebservice.DataSets.DataSetRadarKit",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1197233471 { 
+   	label=ingeniarinoxidables
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_593371288 { 
+   	label=sghiiwebservice
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   ColorGeneratorByPairs482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ColorGeneratorByPairs</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ generateColorPairs(numPairs: int): List&lt;ColorPair&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DataSetRadarKit482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataSetRadarKit</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   coloresPares: ColorGeneratorByPairs [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   kitServicio: KitServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metodos: MetodosDataSets [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tiempoDeUsoDataSet: TiempoDeUsoDataSet [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createDataset(label: String, data: List&lt;Float&gt;, borderColor: String, backgroundColor: String): Map&lt;String, Object&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- createDatasetLongList(label: String, data: List&lt;Long&gt;, borderColor: List&lt;String&gt;, backgroundColor: List&lt;String&gt;): Map&lt;String, Object&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getJson(id: String): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DataSetsControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataSetsControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   dataSetPrestamosOperario: DataSetPrestamosOperario [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   freqtools: DataSetHerramientasFrecuencia [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientasPorRolDataSet: HerramientasPorRolDataSet [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   indicadorAcumulativoDesgaste: IndicadorAcumulativoDesgaste [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   oper7d: DataSetsOperacionesTipo7d [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   piezasDisponiblesByTool: PiezasDisponiblesByTool [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarItem: DataSetRadarItem [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarKit: DataSetRadarKit [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarTool: DataSetRadarHerramienta [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ bajasByTool(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dataFreqTools(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dataPrestamos(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ disponiblesByTool(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesAllTools(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesKit(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesTool(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ operariosByRol(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosByKit(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosKitWorker(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosToolWorker(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosTotalesOperario(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarItem(id: int): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarKit(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarTool(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toolsByCat(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toolsByRole(): ResponseEntity&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ItemHerramientaServicio8218601[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ItemHerramientaServicio</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   herramientaRepositorio: HerramientaRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operarioServicio: OperarioServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   repositorio: ItemHerramientaRepositorio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ eliminarItemHerramienta(id: int): ItemHerramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ guardarItem(item: ItemHerramienta): ItemHerramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ itemParaAsignar(items: List&lt;ItemHerramienta&gt;): ItemHerramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarItemsByTool(idTool: String): List&lt;ItemHerramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarItemsHerramientas(): List&lt;ItemHerramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarItemsHerramientasByEstado(estado: Integer): List&lt;ItemHerramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperacionesItem(id: int): List&lt;Operacion&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerItemHerramienta(id: int): Optional&lt;ItemHerramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumenPorId(id: int): ItemHerramientaResumenPorIdDto</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+KitServicio8218601[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)KitServicio</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   itemHerramientaServicio: ItemHerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operarioRepositorio: OperarioRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   repositorio: KitRepositorio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addHerramienta(idKit: String, herramienta: Herramienta): Kit</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deleteHerramientas(idkit: String): Kit</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminarKit(id: String): Kit</TD></TR>
+<TR><TD ALIGN="LEFT" >+ guardarKit(kit: Kit): Kit</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarKits(): List&lt;Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarKitsPorEstado(estado: Boolean): List&lt;Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperacionesKits(id: String): List&lt;Operacion&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerKitPorId(id: String): Kit</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumen(): KitResumenDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumenPorId(id: String): KitResumenPorIdDto</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MetodosDataSets482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MetodosDataSets</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ completeDataset(dataset: Map&lt;String, Long&gt;, allKeys: Set&lt;String&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAllKeys(a: Map&lt;String, Long&gt;, b: Map&lt;String, Long&gt;): Set&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAllKeysFloat(a: Map&lt;String, Float&gt;, b: Map&lt;String, Float&gt;): Set&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getAllKeysFloatItems(a: Map&lt;Integer, Float&gt;, b: Map&lt;Integer, Float&gt;): Set&lt;Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getOrderedValues(dataset: Map&lt;String, Long&gt;, labels: List&lt;String&gt;): List&lt;Long&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getOrderedValuesFloat(dataset: Map&lt;String, Float&gt;, labels: List&lt;String&gt;): List&lt;Float&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getOrderedValuesFloatItems(dataset: Map&lt;Integer, Float&gt;, labels: List&lt;Integer&gt;): List&lt;Float&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+OperarioServicio8218601[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)OperarioServicio</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   repositorio: OperarioRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   repositorioKits: KitRepositorio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ eliminarOperario(id: String): Operario</TD></TR>
+<TR><TD ALIGN="LEFT" >- frecuenciaListaKits(listado: List&lt;Kit&gt;): HashMap&lt;String, Integer&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- frecuenciaListaTools(listado: List&lt;Operacion&gt;): HashMap&lt;Integer, Long&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ guardarOperario(operario: Operario): Operario</TD></TR>
+<TR><TD ALIGN="LEFT" >+ herramientasPrestamoActivo(idOperario: String): ListaContenedor&lt;ItemHerramienta, Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperarios(): List&lt;Operario&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperariosPorEstado(estado: Boolean): List&lt;Operario&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerOperarioPorId(id: String): Operario</TD></TR>
+<TR><TD ALIGN="LEFT" >+ operacionesWorker(id: String): List&lt;Operacion&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumen(): OperarioResumenDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumenPorID(id: String): OperarioResumenPorIdDto</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TiempoDeUsoDataSet482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TiempoDeUsoDataSet</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   itemHerramientaServicio: ItemHerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   kitServicio: KitServicio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ tiempoHerramientaP(tool: String): long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ tiempoItemP(id: int): long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ tiempoKitP(id: String): long</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+DataSetRadarKit482675278 -> ColorGeneratorByPairs482675278[label="coloresPares
+[0..1]"];
+DataSetRadarKit482675278 -> KitServicio8218601[label="kitServicio
+[1]"];
+DataSetRadarKit482675278 -> MetodosDataSets482675278[label="metodos
+[0..1]"];
+DataSetRadarKit482675278 -> TiempoDeUsoDataSet482675278[label="tiempoDeUsoDataSet
+[1]"];
+DataSetsControlador236320816 -> DataSetRadarKit482675278[label="radarKit
+[1]"];
+ItemHerramientaServicio8218601 -> OperarioServicio8218601[label="operarioServicio
+[1]"];
+KitServicio8218601 -> ItemHerramientaServicio8218601[label="itemHerramientaServicio
+[1]"];
+TiempoDeUsoDataSet482675278 -> ItemHerramientaServicio8218601[label="itemHerramientaServicio
+[1]"];
+TiempoDeUsoDataSet482675278 -> KitServicio8218601[label="kitServicio
+[1]"];
+    
+}
+@enduml

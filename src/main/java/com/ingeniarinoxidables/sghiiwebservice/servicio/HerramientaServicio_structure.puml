@@ -1,0 +1,351 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.ingeniarinoxidables.sghiiwebservice.servicio.HerramientaServicio",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1197233471 { 
+   	label=ingeniarinoxidables
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_593371288 { 
+   	label=sghiiwebservice
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   DataSetRadarHerramienta482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataSetRadarHerramienta</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   coloresPares: ColorGeneratorByPairs [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientaServicio: HerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metodos: MetodosDataSets [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tiempoDeUsoDataSet: TiempoDeUsoDataSet [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createDataset(label: String, data: List&lt;Float&gt;, borderColor: String, backgroundColor: String): Map&lt;String, Object&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getJson(id: String): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DataSetsControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataSetsControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   dataSetPrestamosOperario: DataSetPrestamosOperario [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   freqtools: DataSetHerramientasFrecuencia [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientasPorRolDataSet: HerramientasPorRolDataSet [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   indicadorAcumulativoDesgaste: IndicadorAcumulativoDesgaste [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   oper7d: DataSetsOperacionesTipo7d [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   piezasDisponiblesByTool: PiezasDisponiblesByTool [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarItem: DataSetRadarItem [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarKit: DataSetRadarKit [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   radarTool: DataSetRadarHerramienta [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ bajasByTool(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dataFreqTools(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dataPrestamos(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ disponiblesByTool(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesAllTools(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesKit(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ indicesTool(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ operariosByRol(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosByKit(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosKitWorker(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosToolWorker(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prestamosTotalesOperario(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarItem(id: int): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarKit(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ radarTool(id: String): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toolsByCat(): ResponseEntity&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toolsByRole(): ResponseEntity&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HerramientaControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HerramientaControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   itemHerramientaServicio: ItemHerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   service: HerramientaServicio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actualizar(id: String, herramienta: Herramienta): ResponseEntity&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ agregar(herramienta: Herramienta): ResponseEntity&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminar(id: String): ResponseEntity&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listar(): ResponseEntity&lt;List&lt;Herramienta&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperaciones(id: String): ResponseEntity&lt;List&lt;Operacion&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarProveedores(id: String): ResponseEntity&lt;List&lt;Proveedor&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerPorId(id: String): ResponseEntity&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumen(): ResponseEntity&lt;HerramientaResumenDto&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumenPorId(id: String): ResponseEntity&lt;HerramientaResumenPorIdDto&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HerramientaServicio8218601[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HerramientaServicio</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   kitRepositorio: KitRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operacionRepositorio: OperacionRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   operarioRepositorio: OperarioRepositorio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   repositorio: HerramientaRepositorio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addProveedor(idHerramienta: String, proveedor: Proveedor): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dropSuplier(idHerramienta: String, Suplier: Proveedor): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminarHerramienta(id: String): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ guardarHerramienta(herramienta: Herramienta): Herramienta</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarHerramientas(): List&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarHerramientasPorEstado(estado: Boolean): List&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperacionesTool(id: String): List&lt;Operacion&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarProveedores(id: String): List&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerHerramientaPorId(id: String): Optional&lt;Herramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumen(): HerramientaResumenDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumenPorId(id: String): HerramientaResumenPorIdDto</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HerramientasPorRolDataSet482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HerramientasPorRolDataSet</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   coloresPares: ColorGeneratorByPairs [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientaServicio: HerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metodos: MetodosDataSets [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createDataset(label: String, data: List&lt;Long&gt;, borderColor: List&lt;String&gt;, backgroundColor: List&lt;String&gt;): Map&lt;String, Object&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+IndicadorAcumulativoDesgaste482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)IndicadorAcumulativoDesgaste</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   coloresPares: ColorGeneratorByPairs [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientaServicio: HerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   kitServicio: KitServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metodos: MetodosDataSets [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tiempoDeUsoDataSet: TiempoDeUsoDataSet [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createDataset(label: String, data: List&lt;Float&gt;, borderColor: List&lt;String&gt;, backgroundColor: List&lt;String&gt;): Map&lt;String, Object&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getJsonTool(id: String): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+KitControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)KitControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   service: KitServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   serviceTool: HerramientaServicio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addHerramienta(idkit: String, herramientasKit: List&lt;PaqueteHerramientasKit&gt;): ResponseEntity&lt;Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ agregar(kit: Kit): ResponseEntity&lt;Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ editarKit(idkit: String, kitModificado: KitEditar): ResponseEntity&lt;Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminar(id: String): ResponseEntity&lt;Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- iteradorHerramientas(idkit: String, herramientasKit: List&lt;PaqueteHerramientasKit&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listar(): ResponseEntity&lt;List&lt;Kit&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listarOperaciones(id: String): ResponseEntity&lt;List&lt;Operacion&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerPorId(id: String): ResponseEntity&lt;Kit&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumen(): ResponseEntity&lt;KitResumenDto&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumenPorId(id: String): ResponseEntity&lt;KitResumenPorIdDto&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+OperacionControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)OperacionControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   itemHerramientaServicio: ItemHerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   service: OperacionServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   serviceKit: KitServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   serviceTool: HerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   serviceWorker: OperarioServicio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ agregar(operacion: AgregarOperacion): ResponseEntity&lt;Operacion&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- iteradorHerramientas(herramientasOperacion: List&lt;PaqueteHerramientasKit&gt;, tipo: int): List&lt;ItemHerramienta&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listar(): ResponseEntity&lt;List&lt;Operacion&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerPorId(id: String): ResponseEntity&lt;Operacion&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resumen(): ResponseEntity&lt;OperacionesResumenDto&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PiezasDisponiblesByTool482675278[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PiezasDisponiblesByTool</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   coloresPares: ColorGeneratorByPairs [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   herramientaServicio: HerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metodos: MetodosDataSets [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createDataset(label: String, data: List&lt;Long&gt;, borderColor: List&lt;String&gt;, backgroundColor: List&lt;String&gt;): Map&lt;String, Object&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ jsonData(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ jsonDataBajasTool(): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ProveedorControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ProveedorControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   herramientaServicio: HerramientaServicio [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   service: ProveedorServicio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ actualizar(id: String, proveedor: ProveedorDto): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ agregar(proveedor: ProveedorDto): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminar(id: String): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ listar(): ResponseEntity&lt;List&lt;Proveedor&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerPorId(id: String): ResponseEntity&lt;Proveedor&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+DataSetRadarHerramienta482675278 -> HerramientaServicio8218601[label="herramientaServicio
+[1]"];
+DataSetsControlador236320816 -> DataSetRadarHerramienta482675278[label="radarTool
+[1]"];
+DataSetsControlador236320816 -> HerramientasPorRolDataSet482675278[label="herramientasPorRolDataSet
+[1]"];
+DataSetsControlador236320816 -> IndicadorAcumulativoDesgaste482675278[label="indicadorAcumulativoDesgaste
+[1]"];
+DataSetsControlador236320816 -> PiezasDisponiblesByTool482675278[label="piezasDisponiblesByTool
+[1]"];
+HerramientaControlador236320816 -> HerramientaServicio8218601[label="service
+[1]"];
+HerramientasPorRolDataSet482675278 -> HerramientaServicio8218601[label="herramientaServicio
+[1]"];
+IndicadorAcumulativoDesgaste482675278 -> HerramientaServicio8218601[label="herramientaServicio
+[1]"];
+KitControlador236320816 -> HerramientaServicio8218601[label="serviceTool
+[1]"];
+OperacionControlador236320816 -> HerramientaServicio8218601[label="serviceTool
+[1]"];
+PiezasDisponiblesByTool482675278 -> HerramientaServicio8218601[label="herramientaServicio
+[1]"];
+ProveedorControlador236320816 -> HerramientaServicio8218601[label="herramientaServicio
+[1]"];
+    
+}
+@enduml

@@ -1,0 +1,155 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.ingeniarinoxidables.sghiiwebservice.controlador.ImagenOperarioControlador",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1197233471 { 
+   	label=ingeniarinoxidables
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_593371288 { 
+   	label=sghiiwebservice
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   ImagenOperario1825860153[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ImagenOperario</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   image: byte[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   image_name: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ isValidBase64(base64: byte[]): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ImagenOperarioControlador236320816[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ImagenOperarioControlador</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   service: ImagenOperarioServicio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ agregarImagen(imagenOperario: ImagenOperario): ResponseEntity&lt;ImagenOperario&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ editarImagenO(id: String, imagenOperario: byte[]): ResponseEntity&lt;byte[]&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ eliminarImagen(id: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerPorId(id: String): ResponseEntity&lt;byte[]&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ImagenOperarioServicio8218601[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ImagenOperarioServicio</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   repositorio: ImagenOperarioRepositorio [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ eliminarImagenO(id: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ guardarImagenO(imagenOperario: ImagenOperario): ImagenOperario</TD></TR>
+<TR><TD ALIGN="LEFT" >+ obtenerImagenOPorId(id: String): Optional&lt;ImagenOperario&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+ImagenOperarioControlador236320816 -> ImagenOperario1825860153[label="editarImagenO() -> isValidBase64()"];
+ImagenOperarioControlador236320816 -> ImagenOperarioServicio8218601[label="service
+[1]"];
+    
+}
+@enduml
