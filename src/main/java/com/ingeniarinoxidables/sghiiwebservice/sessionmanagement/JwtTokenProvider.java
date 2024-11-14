@@ -37,9 +37,12 @@ public class JwtTokenProvider {
 
     public Collection<? extends GrantedAuthority> extractAuthorities(String token) {
         Claims claims = extractAllClaims(token);
-        String authoritiesString = claims.get("authorities").toString();
 
-        return Arrays.stream(authoritiesString.split(","))
+        String role = claims.get("role", String.class);
+
+        // Convertimos el rol en una lista de GrantedAuthority para Spring Security
+
+        return Arrays.stream(role.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

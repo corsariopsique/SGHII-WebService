@@ -1,0 +1,143 @@
+Commit: b3f5f05535a6a6efd86da31e2b95a73c789b1b14
+Author: corsariopsique <maordo16@gmail.com>
+Date: Sat Oct 19 09:24:14 2024 -0500
+Message: conjunto de diagramas de clases uml generado para cada clase del sistema by PlantUML
+
+
+Commit: d1e4794ad238bba264d4788fb2195dca0e86402a
+Author: corsariopsique <maordo16@gmail.com>
+Date: Sat Oct 5 08:14:47 2024 -0500
+Message: cambio webconfig cors
+
+
+Commit: 32e6de5d8de3ba3b7ff1cfd50a5a18ab9ab71a64
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu Sep 5 18:55:28 2024 -0500
+Message: implementacion datasets y respectivos controladores (reportes) correccion de mapeos varios (streams)
+
+
+Commit: 74cea72c5769b7f790fa5255adc8e638c6bb9af0
+Author: corsariopsique <maordo16@gmail.com>
+Date: Mon Aug 26 11:43:26 2024 -0500
+Message: implementacion entidad itemherramienta, adaptacion relaciones con otras entidades y base de datos
+
+
+Commit: 6224b064e666559ba804d98bc87db85576696bf6
+Author: corsariopsique <maordo16@gmail.com>
+Date: Sat Aug 17 00:31:23 2024 -0500
+Message: mejora validacion token, key variable de entorno,opcional servicio validacion dtos
+
+
+Commit: 6cfdafee6962efcce50fd77e6655cc354dfa2286
+Author: corsariopsique <maordo16@gmail.com>
+Date: Fri Aug 16 12:50:44 2024 -0500
+Message:  traslado gestion cuentas de usuario nuevo servicio, inicio implementacion datasets,cambios filtrojwttoken, otros
+
+
+Commit: 24c6c366e7dfccaeb9c3e4a7f4f6d4078d0c4176
+Author: corsariopsique <maordo16@gmail.com>
+Date: Fri Aug 9 19:54:19 2024 -0500
+Message:  correcciones resumenes, comparadores, dtos, otros
+
+
+Commit: 4e78c87c4ee96db940eb4b0c3b502d9857334e9e
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu Aug 8 22:36:25 2024 -0500
+Message: correcciones resumenes, comparador, mejoras
+
+
+Commit: f8e79387e21cd1cc3a8313e20bb1810ec4a91a2d
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu Aug 8 16:30:26 2024 -0500
+Message: implementacion de resumenes generales e individuales,DTOs necesarios, correciones
+
+
+Commit: 3d0d7046c76560147003fb9b931ef041d490c9ee
+Author: corsariopsique <maordo16@gmail.com>
+Date: Fri Aug 2 10:49:27 2024 -0500
+Message: implementacion proveedores, manejo de bajas por marcador, endpoint operaciones totales operario, correciones varias
+
+
+Commit: d6ca83bb19901bfcb4dcb2dc4428e21e0141be9d
+Author: corsariopsique <maordo16@gmail.com>
+Date: Fri Jul 26 17:36:50 2024 -0500
+Message: implementacion sistema gestion usuarios jdbc, autenticacion y sesiones tokens jwt, correciones
+
+
+Commit: 920fe914967915de9d49de4f64658c4a9ed86a1e
+Author: corsariopsique <maordo16@gmail.com>
+Date: Wed Jul 10 00:18:38 2024 -0500
+Message: implementacion operaciones, seleccion prestamos por operario, dtos, correciones
+
+
+Commit: bcd2a592cd0c7c91bc4debdba89310fa8bea1293
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu Jun 27 00:10:43 2024 -0500
+Message: modificacion cantidad_disponible - herramienta
+
+
+Commit: 4d85c01be3be5fd3e3d74a5ff3eba3fb665c93b7
+Author: corsariopsique <maordo16@gmail.com>
+Date: Mon Jun 24 22:38:14 2024 -0500
+Message: implementacion manejo imagenes operario, correciones minimas
+
+
+Commit: 36dcc7d27566f0faf33fb511d2207b7dfb3eee4b
+Author: corsariopsique <maordo16@gmail.com>
+Date: Sat Jun 22 20:48:45 2024 -0500
+Message: correcion controlador-servicio-modelo kit - dto kit editar
+
+
+Commit: d2d81cf35edc643f4d263e4a98ee5537ad0a1781
+Author: corsariopsique <maordo16@gmail.com>
+Date: Tue Jun 18 22:49:55 2024 -0500
+Message: Manejo herramientas kit enviadas desde el frontend al controlador - plantilla datos recibidos desde el frontend
+
+
+Commit: 8fe10986225e1a02ff2aac709c4beac0521f6114
+Author: corsariopsique <maordo16@gmail.com>
+Date: Tue Jun 11 01:42:00 2024 -0500
+Message: manejo imagenes herramienta, clases nuevas y demas
+
+
+Commit: d5c0ce8a74ef79e1fff1d87c967ea27527f5122d
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu Jun 6 18:47:47 2024 -0500
+Message:  joins asignaciones_devoluciones manejo serializaciones json correciones controlador y servicio
+
+
+Commit: 0a16f8df7b090d35db6ffb8eed5834a7249884e9
+Author: corsariopsique <maordo16@gmail.com>
+Date: Wed Jun 5 12:17:49 2024 -0500
+Message: correciones nombres tablas
+
+
+Commit: 024a125af6b80a0b8b481273e3e95055d83fa2a1
+Author: corsariopsique <maordo16@gmail.com>
+Date: Sat May 25 19:43:21 2024 -0500
+Message: configuracion JPA Spring faltan 2 tablas
+
+
+Commit: f680607d0257d17f15ee943758c0900194a1d0e3
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu May 23 23:08:37 2024 -0500
+Message: Proveedores, arreglo herramienta
+
+
+Commit: 56e6713d01f5f783098a0acb571f525670d213f6
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu May 23 20:59:06 2024 -0500
+Message:  operarios y operaciones
+
+
+Commit: ca0898981a0e6c9839c196d66438f80b7131e595
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu May 23 18:21:36 2024 -0500
+Message: kits backend
+
+
+Commit: ac5c1d425bc1592ff230d2f95f9514f8c47ce805
+Author: corsariopsique <maordo16@gmail.com>
+Date: Thu May 23 17:21:24 2024 -0500
+Message: iniciando repositorio correciones backend
+
