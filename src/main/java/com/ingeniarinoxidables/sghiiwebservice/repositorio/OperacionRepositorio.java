@@ -1,5 +1,6 @@
 package com.ingeniarinoxidables.sghiiwebservice.repositorio;
 
+import com.ingeniarinoxidables.sghiiwebservice.modelo.Herramienta;
 import com.ingeniarinoxidables.sghiiwebservice.modelo.Operacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,5 +34,11 @@ public interface OperacionRepositorio extends JpaRepository<Operacion,String>{
 
     @Query("SELECT AVG(SIZE(o.herramienta)) FROM asignacion_devolucion o WHERE SIZE(o.herramienta) > 0")
     Double promedioToolsOper();
+
+    @Query("SELECT t FROM asignacion_devolucion t WHERE t.id LIKE :query OR t.operario.nombre LIKE :query OR t.operario.id LIKE :query " +
+            "OR t.operario.email LIKE :query OR t.operario.telefono LIKE :query")
+    List<Operacion> searchOperaciones(@Param("query") String query);
+
+
 
 }

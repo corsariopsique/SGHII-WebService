@@ -17,16 +17,12 @@ public interface HerramientaRepositorio extends JpaRepository<Herramienta,String
     @Query("SELECT t FROM Herramienta t WHERE t.cantidad_disponible <= 2")
     List<Herramienta> listarHerramientaEscasa();
 
-
-    // metodo a revisar por implementacion itemHerramienta
     @Query("SELECT SUM(t.cantidad) FROM Herramienta t WHERE t.estado=false ")
     Long piezasTotalesActivas();
 
-    // metodo a revisar por implementacion itemHerramienta
     @Query("SELECT SUM(t.cantidad) FROM Herramienta t ")
     Long piezasTotales();
 
-    // metodo a revisar por implementacion itemHerramienta
     @Query("SELECT SUM(t.cantidad_kits) FROM Herramienta t WHERE t.estado=false ")
     Long piezasKits();
 
@@ -38,5 +34,9 @@ public interface HerramientaRepositorio extends JpaRepository<Herramienta,String
 
     @Query("SELECT COUNT(t) FROM Herramienta t ")
     Long herramientasTodas();
+
+    @Query("SELECT t FROM Herramienta t WHERE t.nombre LIKE :query OR t.id LIKE :query OR t.categoria LIKE :query " +
+            "OR t.marca LIKE :query OR t.rol LIKE :query")
+    List<Herramienta> searchTools(@Param("query") String query);
 
 }
