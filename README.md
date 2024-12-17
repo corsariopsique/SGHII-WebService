@@ -75,7 +75,7 @@ src/
    ```
    - Actualizar el archivo application.properties con las credenciales de tu base de datos:
    ```bash
-   spring.datasource.url=jdbc:mysql://localhost:3306/sghii
+   spring.datasource.url=jdbc:mysql://ubicacion-MySQL:3306/sghii
    spring.datasource.username=tu_usuario
    spring.datasource.password=tu_contraseña
 4. **Compilar y construir el proyecto**:
